@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "travel-gui", "travel-gui\travel-gui.csproj", "{7BEBEAA3-1ECD-46B0-B850-8CED7C43E0A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelExpertsData", "TravelExpertsData\TravelExpertsData.csproj", "{ED34B2E8-17C0-4A7B-ABB6-D1E178BACFF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BEBEAA3-1ECD-46B0-B850-8CED7C43E0A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BEBEAA3-1ECD-46B0-B850-8CED7C43E0A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BEBEAA3-1ECD-46B0-B850-8CED7C43E0A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BEBEAA3-1ECD-46B0-B850-8CED7C43E0A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED34B2E8-17C0-4A7B-ABB6-D1E178BACFF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED34B2E8-17C0-4A7B-ABB6-D1E178BACFF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED34B2E8-17C0-4A7B-ABB6-D1E178BACFF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED34B2E8-17C0-4A7B-ABB6-D1E178BACFF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87C5C12E-DB02-4A24-AA05-3D87872F7AC8}
+	EndGlobalSection
+EndGlobal
