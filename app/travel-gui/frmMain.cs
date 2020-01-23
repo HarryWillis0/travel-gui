@@ -27,7 +27,7 @@ namespace travel_gui
         {
             try
             {
-                // access packages from db in thread (ASYNCHRONOUS) - May
+                // access packages from db in thread (ASYNCHRONOUS) - Probably uneccessary
                 Thread pkgWork = new Thread(() => 
                 {
                     packages = PackageDB.GetPackages();
@@ -39,12 +39,10 @@ namespace travel_gui
                 
                 pkgPos = 0;
                 ShowPackages();
-                
-                // TODO SHOW OTHER DATA IN TABS
             } 
             catch (Exception ex)
             {
-                MessageBox.Show("Error while loading data.\n" + ex.Message,
+                MessageBox.Show("Error while loading data.\n\n" + ex.Message,
                     ex.GetType().ToString());
             }
         }
@@ -129,6 +127,36 @@ namespace travel_gui
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// Show edit form
+        /// </summary>
+        /// @author Harry
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            // get a copy of the current order
+            Package oldPkg = packages[pkgPos].Clone();
+
+            frmEditPkg updatePkg = new frmEditPkg();
+
+            // set new and old packages on update form
+            updatePkg.oldPkg = oldPkg;
+            updatePkg.newPkg = packages[pkgPos];
+
+            // show package edit form
+            DialogResult editPkgResult = updatePkg.ShowDialog();
+
+            if (editPkgResult == DialogResult.OK) // edit accepted
+            {
+                ShowPackages();
+            }
+            else // edit cancelled
+            {
+                // set back to un-edited package
+                packages[pkgPos] = oldPkg; 
+            }
+
         }
     }
 }
