@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TravelExpertsData;
@@ -26,11 +27,19 @@ namespace travel_gui
         {
             try
             {
+                // access packages from db in thread (ASYNCHRONOUS) - May
+                Thread pkgWork = new Thread(() => 
+                {
+                    packages = PackageDB.GetPackages();
+                });
+                pkgWork.Start();
+                pkgWork.Join();
 
-                packages = PackageDB.GetPackages();
+                /*packages = PackageDB.GetPackages(); // SYNCHRONOUS*/ 
+                
                 pkgPos = 0;
                 ShowPackages();
-
+                
                 // TODO SHOW OTHER DATA IN TABS
             } 
             catch (Exception ex)
