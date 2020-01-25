@@ -15,13 +15,9 @@ namespace travel_gui
     /// A form to update a package
     /// </summary>
     /// @author Harry
-    public partial class frmEditPkg : Form
+    public partial class frmAddPkg : Form
     {
-        // store old and new package
-        public Package oldPkg;
-        public Package newPkg;
-
-        public frmEditPkg()
+        public frmAddPkg()
         {
             InitializeComponent();
         }
@@ -29,38 +25,10 @@ namespace travel_gui
         private void frmEditPkg_Load(object sender, EventArgs e)
         {
             pkgNameTextBox.Focus();
-            ShowPackage();
         }
 
         /// <summary>
-        /// Fill packages data view with packages
-        /// </summary>
-        private void ShowPackage()
-        {
-            packageIdTextBox.Text = oldPkg.PackageId.ToString();
-            pkgNameTextBox.Text = oldPkg.PkgName;
-            pkgDescTextBox.Text = oldPkg.PkgDesc;
-            pkgStartDateTextBox.Text = oldPkg.PkgStartDate.ToString();
-            pkgEndDateTextBox.Text = oldPkg.PkgEndDate.ToString();
-            pkgBasePriceTextBox.Text = oldPkg.PkgBasePrice.ToString();
-            pkgAgencyCommissionTextBox.Text = oldPkg.PkgAgencyCommission.ToString();
-
-            // TODO: GET RID OF TIMES ON DATES
-
-            // some formatting
-            pkgBasePriceTextBox.Text = FormatPrices(pkgBasePriceTextBox.Text);
-            pkgAgencyCommissionTextBox.Text = FormatPrices(pkgAgencyCommissionTextBox.Text);
-        }
-
-        private string FormatPrices(string price)
-        {
-            decimal temp = Convert.ToDecimal(price);
-
-            return temp.ToString("c2");
-        }
-
-        /// <summary>
-        /// Cancel edit of package
+        /// Cancel adding new package
         /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -68,10 +36,11 @@ namespace travel_gui
         }
 
         /// <summary>
-        /// Update accepted 
+        /// Adding new package accepted
         /// </summary>
         private void btnAccept_Click(object sender, EventArgs e)
         {
+            Package newPkg = new Package();
             // VALIDATE
             if (Processor.ProcessName(newPkg, pkgNameTextBox) &&
                 Processor.ProcessStartDate(newPkg, pkgStartDateTextBox) &&
@@ -80,9 +49,9 @@ namespace travel_gui
                 Processor.ProcessPkgPrice(newPkg, pkgBasePriceTextBox) &&
                 Processor.ProcessPkgAgencyCommission(newPkg, pkgAgencyCommissionTextBox))
             { // input good
-               try
+                try
                 {
-                    bool success = PackageDB.UpdatePackage(oldPkg, newPkg);
+                    bool success = PackageDB.AddPackage(newPkg);
                     if (success)
                         this.DialogResult = DialogResult.OK;
                     else
@@ -90,7 +59,7 @@ namespace travel_gui
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error while editing package.\n" + ex.Message,
+                    MessageBox.Show("Error while adding package.\n" + ex.Message,
                         ex.GetType().ToString());
                 }
             }

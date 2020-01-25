@@ -38,9 +38,11 @@
             System.Windows.Forms.Label pkgStartDateLabel1;
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbPkgs = new System.Windows.Forms.TabPage();
-            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnAddPkg = new System.Windows.Forms.Button();
+            this.btnEditPkg = new System.Windows.Forms.Button();
             this.pkgStartDateTextBox = new System.Windows.Forms.TextBox();
             this.pkgEndDateTextBox = new System.Windows.Forms.TextBox();
+            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSkipToFirst = new System.Windows.Forms.Button();
             this.btnSkpToEnd = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
@@ -55,7 +57,6 @@
             this.tbProdSupp = new System.Windows.Forms.TabPage();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
@@ -146,7 +147,8 @@
             // tbPkgs
             // 
             this.tbPkgs.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tbPkgs.Controls.Add(this.btnEdit);
+            this.tbPkgs.Controls.Add(this.btnAddPkg);
+            this.tbPkgs.Controls.Add(this.btnEditPkg);
             this.tbPkgs.Controls.Add(pkgStartDateLabel1);
             this.tbPkgs.Controls.Add(this.pkgStartDateTextBox);
             this.tbPkgs.Controls.Add(pkgEndDateLabel1);
@@ -172,15 +174,25 @@
             this.tbPkgs.TabIndex = 0;
             this.tbPkgs.Text = "Packages";
             // 
-            // btnEdit
+            // btnAddPkg
             // 
-            this.btnEdit.Location = new System.Drawing.Point(209, 241);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 20;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            this.btnAddPkg.Location = new System.Drawing.Point(250, 241);
+            this.btnAddPkg.Name = "btnAddPkg";
+            this.btnAddPkg.Size = new System.Drawing.Size(75, 23);
+            this.btnAddPkg.TabIndex = 21;
+            this.btnAddPkg.Text = "Add";
+            this.btnAddPkg.UseVisualStyleBackColor = true;
+            this.btnAddPkg.Click += new System.EventHandler(this.btnAddPkg_Click);
+            // 
+            // btnEditPkg
+            // 
+            this.btnEditPkg.Location = new System.Drawing.Point(169, 241);
+            this.btnEditPkg.Name = "btnEditPkg";
+            this.btnEditPkg.Size = new System.Drawing.Size(75, 23);
+            this.btnEditPkg.TabIndex = 20;
+            this.btnEditPkg.Text = "Edit";
+            this.btnEditPkg.UseVisualStyleBackColor = true;
+            this.btnEditPkg.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // pkgStartDateTextBox
             // 
@@ -199,6 +211,10 @@
             this.pkgEndDateTextBox.ReadOnly = true;
             this.pkgEndDateTextBox.Size = new System.Drawing.Size(256, 20);
             this.pkgEndDateTextBox.TabIndex = 18;
+            // 
+            // packageBindingSource
+            // 
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // btnSkipToFirst
             // 
@@ -335,10 +351,6 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // packageBindingSource
-            // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -381,8 +393,9 @@
         private System.Windows.Forms.Button btnPrev;
         private System.Windows.Forms.TextBox pkgEndDateTextBox;
         private System.Windows.Forms.TextBox pkgStartDateTextBox;
-        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Button btnEditPkg;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnAddPkg;
     }
 }
 

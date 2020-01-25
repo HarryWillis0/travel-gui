@@ -158,5 +158,29 @@ namespace travel_gui
             }
 
         }
+
+        /// <summary>
+        /// Show add form
+        /// </summary>
+        /// @author Harry
+        private void btnAddPkg_Click(object sender, EventArgs e)
+        {
+            frmAddPkg addPkg = new frmAddPkg();
+
+            // show add new package form
+            DialogResult addPkgResult = addPkg.ShowDialog();
+
+            if (addPkgResult == DialogResult.OK)
+            {
+                // set view to new package
+                packages = PackageDB.GetPackages();
+                pkgPos = packages.Count - 1;
+                ShowPackages();
+            }
+            else // add cancelled
+            {
+                return;
+            }
+        }
     }
 }

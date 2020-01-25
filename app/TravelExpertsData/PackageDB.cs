@@ -34,6 +34,7 @@ namespace TravelExpertsData
                     {
                         connection.Open();
 
+                        // run query
                         SqlDataReader reader = cmd.ExecuteReader();
 
                         while (reader.Read()) // while there are results from query
@@ -43,34 +44,11 @@ namespace TravelExpertsData
                             curr.PackageId = (int)reader["PackageId"];
                             curr.PkgName = (string)reader["PkgName"];
 
-                            // check for null on nullable columns
-                            int col = reader.GetOrdinal("PkgStartDate");
-                            if (reader.IsDBNull(col))
-                                curr.PkgStartDate = null;
-                            else
-                                curr.PkgStartDate = (DateTime?)reader["PkgStartDate"];
-
-                            col = reader.GetOrdinal("PkgEndDate");
-                            if (reader.IsDBNull(col))
-                                curr.PkgEndDate = null;
-                            else
-                                curr.PkgEndDate = (DateTime?)reader["PkgEndDate"]; col = reader.GetOrdinal("PkgEndDate");
-
-                            col = reader.GetOrdinal("PkgAgencyCommission");
-                            if (reader.IsDBNull(col))
-                                curr.PkgAgencyCommission = null;
-                            else
-                                curr.PkgAgencyCommission = (decimal?)reader["PkgAgencyCommission"];
-
-                            curr.PkgDesc = (string)reader["PkgDesc"];
-                            curr.PkgBasePrice = (decimal)reader["PkgBasePrice"];
+                            // process nullable columns in DB
+                            ProcessNullablesFromDB(reader, curr);
 
                             packages.Add(curr);
                         }
-                    }
-                    catch (SqlException ex) // error from SQL Server
-                    {
-                        throw ex;
                     }
                     catch (Exception ex) // unanticipated errors
                     {
@@ -114,34 +92,17 @@ namespace TravelExpertsData
                 cmd.Transaction = updatePkgTran;
                 cmd.CommandText = update;
 
-                // add paramaters to cmd
-                // non-nullable properties - just set old package property to newPkg property
+                // add non-nullable parameters
                 cmd.Parameters.AddWithValue("@NewPkgName", newPkg.PkgName);
                 cmd.Parameters.AddWithValue("@NewPkgBasePrice", newPkg.PkgBasePrice);
                 cmd.Parameters.AddWithValue("@OldId", oldPkg.PackageId);
+
                 // for nullable properties, have to check for null 
-                if (newPkg.PkgStartDate == null)
-                    cmd.Parameters.AddWithValue("@NewPkgStartDate", DBNull.Value);
-                else
-                    cmd.Parameters.AddWithValue("@NewPkgStartDate", newPkg.PkgStartDate);
-
-                if (newPkg.PkgEndDate == null)
-                    cmd.Parameters.AddWithValue("@NewPkgEndDate", DBNull.Value);
-                else
-                    cmd.Parameters.AddWithValue("@NewPkgEndDate", newPkg.PkgEndDate);
-
-                if (newPkg.PkgDesc == null)
-                    cmd.Parameters.AddWithValue("@NewPkgDesc", DBNull.Value);
-                else
-                    cmd.Parameters.AddWithValue("@NewPkgDesc", newPkg.PkgDesc);
-
-                if (newPkg.PkgAgencyCommission == null)
-                    cmd.Parameters.AddWithValue("@NewPkgAgencyCommission", DBNull.Value);
-                else
-                    cmd.Parameters.AddWithValue("@NewPkgAgencyCommission", newPkg.PkgAgencyCommission);
+                ProcessNewPkgNullables(cmd, newPkg);
                 
                 try
                 {
+                    // run query
                     rowsAffected = cmd.ExecuteNonQuery();
 
                     // update failed
@@ -151,7 +112,7 @@ namespace TravelExpertsData
                         return false;
                     }
 
-                    // attempt to commit transaction
+                    // commit transaction and close
                     updatePkgTran.Commit();
                     return true;
                 }
@@ -160,6 +121,121 @@ namespace TravelExpertsData
                     throw ex;
                 }
             } // close and recycle connection
+        }
+
+        /// <summary>
+        /// Add a new package to DB
+        /// </summary>
+        /// <param name="newPkg">package to add</param>
+        /// <returns>true if successful, false otherwise</returns>
+        public static bool AddPackage(Package newPkg)
+        {
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                SqlTransaction addNewPkgTran;
+                int rowsAffected;
+
+                string insert = "INSERT INTO Packages (PkgName, PkgStartDate, PkgEndDate, " +
+                                                      "PkgDesc, PkgBasePrice, PkgAgencyCommission) " +
+                                "VALUES (@PkgName, @NewPkgStartDate, @NewPkgEndDate, " +
+                                        "@NewPkgDesc, @PkgBasePrice, @NewPkgAgencyCommission)";
+
+                // start transaction
+                addNewPkgTran = connection.BeginTransaction();
+
+                // set up cmd properties
+                cmd.Connection = connection;
+                cmd.Transaction = addNewPkgTran;
+                cmd.CommandText = insert;
+
+                // add non-nullable parameters
+                cmd.Parameters.AddWithValue("@PkgName", newPkg.PkgName);
+                cmd.Parameters.AddWithValue("@PkgBasePrice", newPkg.PkgBasePrice);
+
+                // for nullable properties, have to check for null
+                ProcessNewPkgNullables(cmd, newPkg);
+
+                try
+                {
+                    // run query
+                    rowsAffected = cmd.ExecuteNonQuery();
+
+                    // insert failed
+                    if (rowsAffected != 1)
+                    {
+                        addNewPkgTran.Rollback();
+                        return false;
+                    }
+
+                    // commit transaction
+                    addNewPkgTran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            } // close and recycle connection
+        }
+
+        /// <summary>
+        /// Process properties of a package that represent nullable columns in DB
+        /// </summary>
+        /// <param name="cmd">SqlCommand object that is going to run a query</param>
+        /// <param name="pkg">Package of properties to test</param>
+        private static void ProcessNewPkgNullables(SqlCommand cmd, Package pkg)
+        {
+            if (pkg.PkgStartDate == null)
+                cmd.Parameters.AddWithValue("@NewPkgStartDate", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewPkgStartDate", pkg.PkgStartDate);
+
+            if (pkg.PkgEndDate == null)
+                cmd.Parameters.AddWithValue("@NewPkgEndDate", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewPkgEndDate", pkg.PkgEndDate);
+
+            if (pkg.PkgDesc == null)
+                cmd.Parameters.AddWithValue("@NewPkgDesc", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewPkgDesc", pkg.PkgDesc);
+
+            if (pkg.PkgAgencyCommission == null)
+                cmd.Parameters.AddWithValue("@NewPkgAgencyCommission", DBNull.Value);
+            else
+                cmd.Parameters.AddWithValue("@NewPkgAgencyCommission", pkg.PkgAgencyCommission);
+        }
+
+        /// <summary>
+        /// Process nullable columns from DB and transfer data to Package object
+        /// </summary>
+        /// <param name="reader">data reader with data from database</param>
+        /// <param name="curr">package to transfer data to</param>
+        private static void ProcessNullablesFromDB(SqlDataReader reader, Package curr)
+        {
+            // check for null on nullable columns
+            int col = reader.GetOrdinal("PkgStartDate");
+            if (reader.IsDBNull(col))
+                curr.PkgStartDate = null;
+            else
+                curr.PkgStartDate = (DateTime?)reader["PkgStartDate"];
+
+            col = reader.GetOrdinal("PkgEndDate");
+            if (reader.IsDBNull(col))
+                curr.PkgEndDate = null;
+            else
+                curr.PkgEndDate = (DateTime?)reader["PkgEndDate"]; col = reader.GetOrdinal("PkgEndDate");
+
+            col = reader.GetOrdinal("PkgAgencyCommission");
+            if (reader.IsDBNull(col))
+                curr.PkgAgencyCommission = null;
+            else
+                curr.PkgAgencyCommission = (decimal?)reader["PkgAgencyCommission"];
+
+            curr.PkgDesc = (string)reader["PkgDesc"];
+            curr.PkgBasePrice = (decimal)reader["PkgBasePrice"];
         }
     }
 }
