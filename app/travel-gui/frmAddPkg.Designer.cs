@@ -35,7 +35,6 @@
             System.Windows.Forms.Label pkgEndDateLabel;
             System.Windows.Forms.Label pkgNameLabel;
             System.Windows.Forms.Label pkgStartDateLabel;
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pkgAgencyCommissionTextBox = new System.Windows.Forms.TextBox();
             this.pkgBasePriceTextBox = new System.Windows.Forms.TextBox();
             this.pkgDescTextBox = new System.Windows.Forms.TextBox();
@@ -44,6 +43,7 @@
             this.pkgStartDateTextBox = new System.Windows.Forms.TextBox();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
             pkgDescLabel = new System.Windows.Forms.Label();
@@ -107,17 +107,13 @@
             pkgStartDateLabel.TabIndex = 13;
             pkgStartDateLabel.Text = "Start Date:";
             // 
-            // packageBindingSource
-            // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
-            // 
             // pkgAgencyCommissionTextBox
             // 
             this.pkgAgencyCommissionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgAgencyCommission", true));
             this.pkgAgencyCommissionTextBox.Location = new System.Drawing.Point(168, 154);
             this.pkgAgencyCommissionTextBox.Name = "pkgAgencyCommissionTextBox";
             this.pkgAgencyCommissionTextBox.Size = new System.Drawing.Size(100, 20);
-            this.pkgAgencyCommissionTextBox.TabIndex = 4;
+            this.pkgAgencyCommissionTextBox.TabIndex = 5;
             // 
             // pkgBasePriceTextBox
             // 
@@ -125,7 +121,7 @@
             this.pkgBasePriceTextBox.Location = new System.Drawing.Point(168, 128);
             this.pkgBasePriceTextBox.Name = "pkgBasePriceTextBox";
             this.pkgBasePriceTextBox.Size = new System.Drawing.Size(100, 20);
-            this.pkgBasePriceTextBox.TabIndex = 6;
+            this.pkgBasePriceTextBox.TabIndex = 4;
             // 
             // pkgDescTextBox
             // 
@@ -134,7 +130,7 @@
             this.pkgDescTextBox.Multiline = true;
             this.pkgDescTextBox.Name = "pkgDescTextBox";
             this.pkgDescTextBox.Size = new System.Drawing.Size(164, 20);
-            this.pkgDescTextBox.TabIndex = 8;
+            this.pkgDescTextBox.TabIndex = 1;
             // 
             // pkgEndDateTextBox
             // 
@@ -142,7 +138,7 @@
             this.pkgEndDateTextBox.Location = new System.Drawing.Point(168, 102);
             this.pkgEndDateTextBox.Name = "pkgEndDateTextBox";
             this.pkgEndDateTextBox.Size = new System.Drawing.Size(100, 20);
-            this.pkgEndDateTextBox.TabIndex = 10;
+            this.pkgEndDateTextBox.TabIndex = 3;
             // 
             // pkgNameTextBox
             // 
@@ -150,7 +146,7 @@
             this.pkgNameTextBox.Location = new System.Drawing.Point(168, 24);
             this.pkgNameTextBox.Name = "pkgNameTextBox";
             this.pkgNameTextBox.Size = new System.Drawing.Size(100, 20);
-            this.pkgNameTextBox.TabIndex = 12;
+            this.pkgNameTextBox.TabIndex = 0;
             // 
             // pkgStartDateTextBox
             // 
@@ -158,7 +154,7 @@
             this.pkgStartDateTextBox.Location = new System.Drawing.Point(168, 76);
             this.pkgStartDateTextBox.Name = "pkgStartDateTextBox";
             this.pkgStartDateTextBox.Size = new System.Drawing.Size(100, 20);
-            this.pkgStartDateTextBox.TabIndex = 14;
+            this.pkgStartDateTextBox.TabIndex = 2;
             // 
             // btnAccept
             // 
@@ -180,6 +176,10 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // packageBindingSource
+            // 
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
+            // 
             // frmAddPkg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -200,6 +200,7 @@
             this.Controls.Add(pkgStartDateLabel);
             this.Controls.Add(this.pkgStartDateTextBox);
             this.Name = "frmAddPkg";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add New Package";
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
             this.ResumeLayout(false);
