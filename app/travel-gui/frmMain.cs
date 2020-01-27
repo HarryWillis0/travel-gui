@@ -58,7 +58,6 @@ namespace travel_gui
 
                 // access products and suppliers associated with current package
                 PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);   
-               
 
                 pkgPos = 0;
                 ShowPackages();
@@ -273,10 +272,6 @@ namespace travel_gui
                 packages = PackageDB.GetPackages();
                 pkgPos = packages.Count - 1;
                 ShowPackages();
-            }
-            else // add cancelled
-            {
-                return;
             }
         }
 
