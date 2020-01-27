@@ -38,6 +38,9 @@
             System.Windows.Forms.Label pkgStartDateLabel1;
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbPkgs = new System.Windows.Forms.TabPage();
+            this.dataGrdViewPkgProds = new System.Windows.Forms.DataGridView();
+            this.colProdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProdSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpBoxAddProdToPkg = new System.Windows.Forms.GroupBox();
             this.btnAddProdToPkg = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -63,9 +66,7 @@
             this.tbProdSupp = new System.Windows.Forms.TabPage();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
-            this.dataGrdViewPkgProds = new System.Windows.Forms.DataGridView();
-            this.colProdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProdSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label3 = new System.Windows.Forms.Label();
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
@@ -75,9 +76,9 @@
             pkgStartDateLabel1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tbPkgs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).BeginInit();
             this.grpBoxAddProdToPkg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).BeginInit();
             this.SuspendLayout();
             // 
             // packageIdLabel
@@ -158,6 +159,7 @@
             // tbPkgs
             // 
             this.tbPkgs.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tbPkgs.Controls.Add(this.label3);
             this.tbPkgs.Controls.Add(this.dataGrdViewPkgProds);
             this.tbPkgs.Controls.Add(this.grpBoxAddProdToPkg);
             this.tbPkgs.Controls.Add(this.btnAddPkg);
@@ -187,6 +189,33 @@
             this.tbPkgs.TabIndex = 0;
             this.tbPkgs.Text = "Packages";
             // 
+            // dataGrdViewPkgProds
+            // 
+            this.dataGrdViewPkgProds.AllowUserToAddRows = false;
+            this.dataGrdViewPkgProds.AllowUserToDeleteRows = false;
+            this.dataGrdViewPkgProds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrdViewPkgProds.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colProdName,
+            this.colProdSupplier});
+            this.dataGrdViewPkgProds.Location = new System.Drawing.Point(436, 40);
+            this.dataGrdViewPkgProds.Name = "dataGrdViewPkgProds";
+            this.dataGrdViewPkgProds.ReadOnly = true;
+            this.dataGrdViewPkgProds.Size = new System.Drawing.Size(443, 150);
+            this.dataGrdViewPkgProds.TabIndex = 23;
+            // 
+            // colProdName
+            // 
+            this.colProdName.HeaderText = "Product Name";
+            this.colProdName.Name = "colProdName";
+            this.colProdName.ReadOnly = true;
+            // 
+            // colProdSupplier
+            // 
+            this.colProdSupplier.HeaderText = "Supplier";
+            this.colProdSupplier.Name = "colProdSupplier";
+            this.colProdSupplier.ReadOnly = true;
+            this.colProdSupplier.Width = 300;
+            // 
             // grpBoxAddProdToPkg
             // 
             this.grpBoxAddProdToPkg.Controls.Add(this.btnAddProdToPkg);
@@ -194,7 +223,7 @@
             this.grpBoxAddProdToPkg.Controls.Add(this.cmboBoxSupsOfProd);
             this.grpBoxAddProdToPkg.Controls.Add(this.label1);
             this.grpBoxAddProdToPkg.Controls.Add(this.cmboBoxProducts);
-            this.grpBoxAddProdToPkg.Location = new System.Drawing.Point(436, 189);
+            this.grpBoxAddProdToPkg.Location = new System.Drawing.Point(436, 196);
             this.grpBoxAddProdToPkg.Name = "grpBoxAddProdToPkg";
             this.grpBoxAddProdToPkg.Size = new System.Drawing.Size(276, 134);
             this.grpBoxAddProdToPkg.TabIndex = 22;
@@ -379,7 +408,7 @@
             this.tbProds.Location = new System.Drawing.Point(4, 22);
             this.tbProds.Name = "tbProds";
             this.tbProds.Padding = new System.Windows.Forms.Padding(3);
-            this.tbProds.Size = new System.Drawing.Size(716, 329);
+            this.tbProds.Size = new System.Drawing.Size(885, 336);
             this.tbProds.TabIndex = 1;
             this.tbProds.Text = "Products";
             this.tbProds.UseVisualStyleBackColor = true;
@@ -388,7 +417,7 @@
             // 
             this.tbSuppliers.Location = new System.Drawing.Point(4, 22);
             this.tbSuppliers.Name = "tbSuppliers";
-            this.tbSuppliers.Size = new System.Drawing.Size(716, 329);
+            this.tbSuppliers.Size = new System.Drawing.Size(885, 336);
             this.tbSuppliers.TabIndex = 3;
             this.tbSuppliers.Text = "Suppliers";
             this.tbSuppliers.UseVisualStyleBackColor = true;
@@ -398,7 +427,7 @@
             this.tbProdSupp.Location = new System.Drawing.Point(4, 22);
             this.tbProdSupp.Name = "tbProdSupp";
             this.tbProdSupp.Padding = new System.Windows.Forms.Padding(3);
-            this.tbProdSupp.Size = new System.Drawing.Size(716, 329);
+            this.tbProdSupp.Size = new System.Drawing.Size(885, 336);
             this.tbProdSupp.TabIndex = 2;
             this.tbProdSupp.Text = "Product Suppliers";
             this.tbProdSupp.UseVisualStyleBackColor = true;
@@ -423,32 +452,14 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // dataGrdViewPkgProds
+            // label3
             // 
-            this.dataGrdViewPkgProds.AllowUserToAddRows = false;
-            this.dataGrdViewPkgProds.AllowUserToDeleteRows = false;
-            this.dataGrdViewPkgProds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGrdViewPkgProds.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colProdName,
-            this.colProdSupplier});
-            this.dataGrdViewPkgProds.Location = new System.Drawing.Point(436, 30);
-            this.dataGrdViewPkgProds.Name = "dataGrdViewPkgProds";
-            this.dataGrdViewPkgProds.ReadOnly = true;
-            this.dataGrdViewPkgProds.Size = new System.Drawing.Size(443, 150);
-            this.dataGrdViewPkgProds.TabIndex = 23;
-            // 
-            // colProdName
-            // 
-            this.colProdName.HeaderText = "Product Name";
-            this.colProdName.Name = "colProdName";
-            this.colProdName.ReadOnly = true;
-            // 
-            // colProdSupplier
-            // 
-            this.colProdSupplier.HeaderText = "Supplier";
-            this.colProdSupplier.Name = "colProdSupplier";
-            this.colProdSupplier.ReadOnly = true;
-            this.colProdSupplier.Width = 300;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(436, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(86, 13);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "Current Products";
             // 
             // frmMain
             // 
@@ -466,10 +477,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tbPkgs.ResumeLayout(false);
             this.tbPkgs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).EndInit();
             this.grpBoxAddProdToPkg.ResumeLayout(false);
             this.grpBoxAddProdToPkg.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -507,6 +518,7 @@
         private System.Windows.Forms.DataGridView dataGrdViewPkgProds;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProdName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProdSupplier;
+        private System.Windows.Forms.Label label3;
     }
 }
 
