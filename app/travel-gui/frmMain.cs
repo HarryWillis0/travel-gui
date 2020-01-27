@@ -18,6 +18,12 @@ namespace travel_gui
         List<Package> packages; // list of packages
         int pkgPos; // current position in packages
 
+        // product info
+        List<Products> products;
+
+        // supplier of current product in combo box
+        List<Supplier> suppliersOfProd;
+
         public frmMain()
         {
             InitializeComponent();
@@ -25,6 +31,12 @@ namespace travel_gui
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            // list of products associated with current package in detail view in packages tab
+            List<string> pkgProducts;
+
+            // list of supplier names of the products associated with package in detail view in packages tab
+            List<string> pkgProdSupps;
+
             try
             {
                 // access packages from db in thread (ASYNCHRONOUS) - Probably uneccessary
@@ -33,17 +45,62 @@ namespace travel_gui
                     packages = PackageDB.GetPackages();
                 });
                 pkgWork.Start();
-                pkgWork.Join();
 
-                /*packages = PackageDB.GetPackages(); // SYNCHRONOUS*/ 
-                
+                // access all products from db in thread 
+                Thread prodWork = new Thread(() => 
+                {
+                    products = ProductsDB.GetAllProducts();
+                });
+                prodWork.Start();
+
+                pkgWork.Join();
+                prodWork.Join();
+
+                // access products and suppliers associated with current package
+                PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);   
+               
+
                 pkgPos = 0;
                 ShowPackages();
+                ShowAllProducts();
+                ShowPkgProducts(pkgProducts, pkgProdSupps);
             } 
             catch (Exception ex)
             {
                 MessageBox.Show("Error while loading data.\n\n" + ex.Message,
                     ex.GetType().ToString());
+            }
+        }
+
+        /// <summary>
+        /// Populate data grid view on packages tab with
+        ///     products and suppliers associated with package
+        ///         in detail view.
+        /// </summary>
+        /// @author Harry
+        private void ShowPkgProducts(List<string> pkgProducts, List<string> pkgProdSupps)
+        {
+            dataGrdViewPkgProds.Rows.Clear();
+
+            int index = 0;
+            // create rows for product and its supplier 
+            foreach (string str in pkgProducts)
+            {
+                string[] newRow = new string[] { str, pkgProdSupps[index++]};
+
+                // add to data grid view
+                dataGrdViewPkgProds.Rows.Add(newRow);
+            }
+        }
+
+        /// <summary>
+        /// Fill combo box with products
+        /// </summary>
+        private void ShowAllProducts()
+        {
+            foreach (Products prod in products)
+            {
+                cmboBoxProducts.Items.Add(prod.ProductName);
             }
         }
 
@@ -74,8 +131,18 @@ namespace travel_gui
         /// @author Harry
         private void btnSkipToFirst_Click(object sender, EventArgs e)
         {
+            // list of products associated with current package in detail view in packages tab
+            List<string> pkgProducts;
+
+            // list of supplier names of the products associated with package in detail view in packages tab
+            List<string> pkgProdSupps;
+
             pkgPos = 0;
             ShowPackages();
+
+            // access products and suppliers associated with current package
+            PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);
+            ShowPkgProducts(pkgProducts, pkgProdSupps);
         }
 
         /// <summary>
@@ -85,6 +152,12 @@ namespace travel_gui
         /// @author Harry
         private void btnPrev_Click(object sender, EventArgs e)
         {
+            // list of products associated with current package in detail view in packages tab
+            List<string> pkgProducts;
+
+            // list of supplier names of the products associated with package in detail view in packages tab
+            List<string> pkgProdSupps;
+
             // wrap around if current package is the last.
             if (pkgPos == 0)
                 pkgPos = packages.Count - 1;
@@ -92,6 +165,10 @@ namespace travel_gui
                 pkgPos--;
 
             ShowPackages();
+
+            // access products and suppliers associated with current package
+            PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);
+            ShowPkgProducts(pkgProducts, pkgProdSupps);
         }
 
         /// <summary>
@@ -101,6 +178,12 @@ namespace travel_gui
         /// @author Harry
         private void btnNext_Click(object sender, EventArgs e)
         {
+            // list of products associated with current package in detail view in packages tab
+            List<string> pkgProducts;
+
+            // list of supplier names of the products associated with package in detail view in packages tab
+            List<string> pkgProdSupps;
+
             // wrap around if current package is the first.
             if (pkgPos == packages.Count - 1)
                 pkgPos = 0;
@@ -108,6 +191,10 @@ namespace travel_gui
                 pkgPos++;
 
             ShowPackages();
+
+            // access products and suppliers associated with current package
+            PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);
+            ShowPkgProducts(pkgProducts, pkgProdSupps);
         }
 
         /// <summary>
@@ -116,8 +203,18 @@ namespace travel_gui
         /// @author Harry
         private void btnSkpToEnd_Click(object sender, EventArgs e)
         {
+            // list of products associated with current package in detail view in packages tab
+            List<string> pkgProducts;
+
+            // list of supplier names of the products associated with package in detail view in packages tab
+            List<string> pkgProdSupps;
+
             pkgPos = packages.Count - 1;
             ShowPackages();
+
+            // access products and suppliers associated with current package
+            PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);
+            ShowPkgProducts(pkgProducts, pkgProdSupps);
         }
 
         /// <summary>
@@ -182,5 +279,103 @@ namespace travel_gui
                 return;
             }
         }
+
+        /// <summary>
+        /// Show suppliers of selected product
+        /// </summary>
+        /// @author Harry
+        private void cmboBoxProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // ensure there was a selection
+            if (cmboBoxProducts.SelectedIndex > -1)
+            {
+                try
+                {
+                    // get selected index 
+                    int cmboBoxIndex = cmboBoxProducts.SelectedIndex;
+
+                    // get product id
+                    int prodId = products[cmboBoxIndex].ProductID;
+                    
+                    // get suppliers of product
+                    suppliersOfProd = SuppliersDB.FindSuppliersOfProduct(prodId);
+
+                    cmboBoxSupsOfProd.Items.Clear();
+
+                    // add to combo box
+                    foreach (Supplier sup in suppliersOfProd)
+                    {
+                        cmboBoxSupsOfProd.Items.Add(sup.SupName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while loading suppliers\n" + ex.Message,
+                        ex.GetType().ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add selected product to package in detail view
+        /// </summary>
+        /// @author Harry
+        private void btnAddProdToPkg_Click(object sender, EventArgs e)
+        {
+            if (cmboBoxSupsOfProd.SelectedIndex > -1 && cmboBoxProducts.SelectedIndex > -1) // selection required
+            {
+                // get product and supplier ids (to get ProductSupplierId)
+                int prodId = products[cmboBoxProducts.SelectedIndex].ProductID;
+                int supplierId = suppliersOfProd[cmboBoxSupsOfProd.SelectedIndex].SupplierId;
+
+                try
+                {
+                    // get product supplier id
+                    int prodSuppId = ProductSupplierDB.GetId(prodId, supplierId);
+
+                    // create new package product supplier object to enter into package products suppliers table
+                    PackageProductSupplier newPkgProdSup = new PackageProductSupplier();
+                    newPkgProdSup.PackageId = Convert.ToInt32(packageIdTextBox.Text);
+                    newPkgProdSup.ProductSupplierId = prodSuppId;
+
+                    // update packages product supplier table
+                    bool success = PackageProductSupplierDB.AddNewPkgProdSupp(newPkgProdSup);
+
+                    if (success)
+                    {
+                        // clear combo boxes
+                        cmboBoxProducts.Items.Clear();
+                        cmboBoxSupsOfProd.Items.Clear();
+
+                        // show updated version of products associated with package
+                        List<string> pkgProducts;
+                        List<string> pkgProdSupps;
+
+                        // access products and suppliers associated with current package
+                        PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);
+                        ShowPkgProducts(pkgProducts, pkgProdSupps);
+
+                        MessageBox.Show("Added product successfully.", "Success");
+                    }
+                    else
+                    {
+                        // clear combo boxes
+                        cmboBoxProducts.Items.Clear();
+                        cmboBoxSupsOfProd.Items.Clear();
+                        MessageBox.Show("Error occured while adding product.", "Failure");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error while adding product to package\n" + ex.Message,
+                        ex.GetType().ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a product and its supplier.", "Select Error");
+            }
+        }
     }
 }
+    

@@ -38,11 +38,17 @@
             System.Windows.Forms.Label pkgStartDateLabel1;
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbPkgs = new System.Windows.Forms.TabPage();
+            this.grpBoxAddProdToPkg = new System.Windows.Forms.GroupBox();
+            this.btnAddProdToPkg = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmboBoxSupsOfProd = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmboBoxProducts = new System.Windows.Forms.ComboBox();
             this.btnAddPkg = new System.Windows.Forms.Button();
             this.btnEditPkg = new System.Windows.Forms.Button();
             this.pkgStartDateTextBox = new System.Windows.Forms.TextBox();
-            this.pkgEndDateTextBox = new System.Windows.Forms.TextBox();
             this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.pkgEndDateTextBox = new System.Windows.Forms.TextBox();
             this.btnSkipToFirst = new System.Windows.Forms.Button();
             this.btnSkpToEnd = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
@@ -57,6 +63,9 @@
             this.tbProdSupp = new System.Windows.Forms.TabPage();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
+            this.dataGrdViewPkgProds = new System.Windows.Forms.DataGridView();
+            this.colProdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProdSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
@@ -66,7 +75,9 @@
             pkgStartDateLabel1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tbPkgs.SuspendLayout();
+            this.grpBoxAddProdToPkg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).BeginInit();
             this.SuspendLayout();
             // 
             // packageIdLabel
@@ -141,12 +152,14 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 67);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(724, 355);
+            this.tabControl1.Size = new System.Drawing.Size(893, 362);
             this.tabControl1.TabIndex = 0;
             // 
             // tbPkgs
             // 
             this.tbPkgs.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tbPkgs.Controls.Add(this.dataGrdViewPkgProds);
+            this.tbPkgs.Controls.Add(this.grpBoxAddProdToPkg);
             this.tbPkgs.Controls.Add(this.btnAddPkg);
             this.tbPkgs.Controls.Add(this.btnEditPkg);
             this.tbPkgs.Controls.Add(pkgStartDateLabel1);
@@ -170,9 +183,68 @@
             this.tbPkgs.Location = new System.Drawing.Point(4, 22);
             this.tbPkgs.Name = "tbPkgs";
             this.tbPkgs.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPkgs.Size = new System.Drawing.Size(716, 329);
+            this.tbPkgs.Size = new System.Drawing.Size(885, 336);
             this.tbPkgs.TabIndex = 0;
             this.tbPkgs.Text = "Packages";
+            // 
+            // grpBoxAddProdToPkg
+            // 
+            this.grpBoxAddProdToPkg.Controls.Add(this.btnAddProdToPkg);
+            this.grpBoxAddProdToPkg.Controls.Add(this.label2);
+            this.grpBoxAddProdToPkg.Controls.Add(this.cmboBoxSupsOfProd);
+            this.grpBoxAddProdToPkg.Controls.Add(this.label1);
+            this.grpBoxAddProdToPkg.Controls.Add(this.cmboBoxProducts);
+            this.grpBoxAddProdToPkg.Location = new System.Drawing.Point(436, 189);
+            this.grpBoxAddProdToPkg.Name = "grpBoxAddProdToPkg";
+            this.grpBoxAddProdToPkg.Size = new System.Drawing.Size(276, 134);
+            this.grpBoxAddProdToPkg.TabIndex = 22;
+            this.grpBoxAddProdToPkg.TabStop = false;
+            this.grpBoxAddProdToPkg.Text = "Add Product to Package";
+            // 
+            // btnAddProdToPkg
+            // 
+            this.btnAddProdToPkg.Location = new System.Drawing.Point(96, 94);
+            this.btnAddProdToPkg.Name = "btnAddProdToPkg";
+            this.btnAddProdToPkg.Size = new System.Drawing.Size(75, 23);
+            this.btnAddProdToPkg.TabIndex = 4;
+            this.btnAddProdToPkg.Text = "Add";
+            this.btnAddProdToPkg.UseVisualStyleBackColor = true;
+            this.btnAddProdToPkg.Click += new System.EventHandler(this.btnAddProdToPkg_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 56);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(90, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Select a Supplier:";
+            // 
+            // cmboBoxSupsOfProd
+            // 
+            this.cmboBoxSupsOfProd.FormattingEnabled = true;
+            this.cmboBoxSupsOfProd.Location = new System.Drawing.Point(135, 53);
+            this.cmboBoxSupsOfProd.Name = "cmboBoxSupsOfProd";
+            this.cmboBoxSupsOfProd.Size = new System.Drawing.Size(121, 21);
+            this.cmboBoxSupsOfProd.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(89, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Select a Product:";
+            // 
+            // cmboBoxProducts
+            // 
+            this.cmboBoxProducts.FormattingEnabled = true;
+            this.cmboBoxProducts.Location = new System.Drawing.Point(135, 23);
+            this.cmboBoxProducts.Name = "cmboBoxProducts";
+            this.cmboBoxProducts.Size = new System.Drawing.Size(121, 21);
+            this.cmboBoxProducts.TabIndex = 0;
+            this.cmboBoxProducts.SelectedIndexChanged += new System.EventHandler(this.cmboBoxProducts_SelectedIndexChanged);
             // 
             // btnAddPkg
             // 
@@ -180,7 +252,7 @@
             this.btnAddPkg.Name = "btnAddPkg";
             this.btnAddPkg.Size = new System.Drawing.Size(75, 23);
             this.btnAddPkg.TabIndex = 21;
-            this.btnAddPkg.Text = "Add";
+            this.btnAddPkg.Text = "New";
             this.btnAddPkg.UseVisualStyleBackColor = true;
             this.btnAddPkg.Click += new System.EventHandler(this.btnAddPkg_Click);
             // 
@@ -203,6 +275,10 @@
             this.pkgStartDateTextBox.Size = new System.Drawing.Size(256, 20);
             this.pkgStartDateTextBox.TabIndex = 19;
             // 
+            // packageBindingSource
+            // 
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
+            // 
             // pkgEndDateTextBox
             // 
             this.pkgEndDateTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgEndDate", true));
@@ -211,10 +287,6 @@
             this.pkgEndDateTextBox.ReadOnly = true;
             this.pkgEndDateTextBox.Size = new System.Drawing.Size(256, 20);
             this.pkgEndDateTextBox.TabIndex = 18;
-            // 
-            // packageBindingSource
-            // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // btnSkipToFirst
             // 
@@ -343,7 +415,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(738, 415);
+            this.btnExit.Location = new System.Drawing.Point(860, 438);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(50, 23);
             this.btnExit.TabIndex = 2;
@@ -351,12 +423,39 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // dataGrdViewPkgProds
+            // 
+            this.dataGrdViewPkgProds.AllowUserToAddRows = false;
+            this.dataGrdViewPkgProds.AllowUserToDeleteRows = false;
+            this.dataGrdViewPkgProds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrdViewPkgProds.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colProdName,
+            this.colProdSupplier});
+            this.dataGrdViewPkgProds.Location = new System.Drawing.Point(436, 30);
+            this.dataGrdViewPkgProds.Name = "dataGrdViewPkgProds";
+            this.dataGrdViewPkgProds.ReadOnly = true;
+            this.dataGrdViewPkgProds.Size = new System.Drawing.Size(443, 150);
+            this.dataGrdViewPkgProds.TabIndex = 23;
+            // 
+            // colProdName
+            // 
+            this.colProdName.HeaderText = "Product Name";
+            this.colProdName.Name = "colProdName";
+            this.colProdName.ReadOnly = true;
+            // 
+            // colProdSupplier
+            // 
+            this.colProdSupplier.HeaderText = "Supplier";
+            this.colProdSupplier.Name = "colProdSupplier";
+            this.colProdSupplier.ReadOnly = true;
+            this.colProdSupplier.Width = 300;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(922, 473);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.tabControl1);
@@ -367,7 +466,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tbPkgs.ResumeLayout(false);
             this.tbPkgs.PerformLayout();
+            this.grpBoxAddProdToPkg.ResumeLayout(false);
+            this.grpBoxAddProdToPkg.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -396,6 +498,15 @@
         private System.Windows.Forms.Button btnEditPkg;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnAddPkg;
+        private System.Windows.Forms.GroupBox grpBoxAddProdToPkg;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmboBoxProducts;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmboBoxSupsOfProd;
+        private System.Windows.Forms.Button btnAddProdToPkg;
+        private System.Windows.Forms.DataGridView dataGrdViewPkgProds;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProdName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProdSupplier;
     }
 }
 

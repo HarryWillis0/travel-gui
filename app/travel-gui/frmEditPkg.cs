@@ -40,16 +40,39 @@ namespace travel_gui
             packageIdTextBox.Text = oldPkg.PackageId.ToString();
             pkgNameTextBox.Text = oldPkg.PkgName;
             pkgDescTextBox.Text = oldPkg.PkgDesc;
-            pkgStartDateTextBox.Text = oldPkg.PkgStartDate.ToString();
-            pkgEndDateTextBox.Text = oldPkg.PkgEndDate.ToString();
-            pkgBasePriceTextBox.Text = oldPkg.PkgBasePrice.ToString();
-            pkgAgencyCommissionTextBox.Text = oldPkg.PkgAgencyCommission.ToString();
+
+            // format to get rid of time stamp - first got to check if null
+            if (oldPkg.PkgStartDate == null)
+                pkgStartDateTextBox.Text = "";
+            else
+            {
+                DateTime temp = Convert.ToDateTime(oldPkg.PkgStartDate);
+                pkgStartDateTextBox.Text = temp.ToShortDateString();
+            }
+
+            if (oldPkg.PkgEndDate == null)
+                pkgEndDateTextBox.Text = "";
+            else
+            {
+                DateTime temp = Convert.ToDateTime(oldPkg.PkgEndDate);
+                pkgEndDateTextBox.Text = temp.ToShortDateString();
+            }
+
+            pkgBasePriceTextBox.Text = oldPkg.PkgBasePrice.ToString("c2");
+
+            if (oldPkg.PkgAgencyCommission == null)
+                pkgAgencyCommissionTextBox.Text = "";
+            else
+            {
+                decimal temp = Convert.ToDecimal(oldPkg.PkgAgencyCommission);
+                pkgAgencyCommissionTextBox.Text = temp.ToString("c2");
+            }
 
             // TODO: GET RID OF TIMES ON DATES
 
             // some formatting
-            pkgBasePriceTextBox.Text = FormatPrices(pkgBasePriceTextBox.Text);
-            pkgAgencyCommissionTextBox.Text = FormatPrices(pkgAgencyCommissionTextBox.Text);
+            //pkgBasePriceTextBox.Text = FormatPrices(pkgBasePriceTextBox.Text);
+            //pkgAgencyCommissionTextBox.Text = FormatPrices(pkgAgencyCommissionTextBox.Text);
         }
 
         private string FormatPrices(string price)

@@ -179,6 +179,56 @@ namespace TravelExpertsData
                 }
             } // close and recycle connection
         }
+        /// <summary>
+        /// Find products and their suppliers associated with a package
+        /// </summary>
+        /// <param name="pkgId">ID of package to find products and suppliers for</param>
+        /// <param name="productNames">Names of products associated with package</param>
+        /// <param name="supplierNames">Names of products supplier associated with package</param>
+        public static void GetPackageProducts(int pkgId, out List<string> productNames, out List<string> supplierNames)
+        {
+            productNames = new List<string>();
+            supplierNames = new List<string>();
+
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query = "SELECT ProdName, SupName " +
+                               "FROM Packages " +
+                                    "join Packages_Products_Suppliers " +
+                                        "on Packages_Products_Suppliers.PackageId = Packages.PackageId " +
+                                    "join Products_Suppliers " +
+                                        "on Products_Suppliers.ProductSupplierId = Packages_Products_Suppliers.ProductSupplierId " +
+                                    "join Suppliers " +
+                                        "on Products_Suppliers.SupplierId = Suppliers.SupplierId " +
+                                    "join Products " +
+                                        "on Products.ProductId = Products_Suppliers.ProductId " +
+                               "WHERE Packages.PackageId = @PackageId";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        // add parameter to query
+                        cmd.Parameters.AddWithValue("@PackageId", pkgId);
+
+                        // run query
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        while (reader.Read()) // while there are results
+                        {
+                            // process each result and add to appropiate list
+                            productNames.Add((string)reader["ProdName"]);
+                            supplierNames.Add((string)reader["SupName"]);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                } // recycle cmd
+            } // close and recycle connection
+        }
 
         /// <summary>
         /// Process properties of a package that represent nullable columns in DB
