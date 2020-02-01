@@ -82,9 +82,6 @@ namespace travel_gui
         /// </summary>
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("OLD PACKAGE:\n\t" + oldPkg.PkgName + "\n\t" + oldPkg.PkgDesc + "\n\t" + oldPkg.PkgStartDate + "\n\t" + oldPkg.PkgEndDate + "\n"
-                + "NEWPKG\n\t" + newPkg.PkgName + "\n\t" + newPkg.PkgDesc + "\n\t" + newPkg.PkgStartDate + "\n\t" + newPkg.PkgEndDate);
-
             // VALIDATE
             if (Processor.ProcessName(newPkg, pkgNameTextBox) &&
                 Processor.ProcessStartDate(newPkg, pkgStartDateTextBox) &&

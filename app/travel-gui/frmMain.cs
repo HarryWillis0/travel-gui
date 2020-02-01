@@ -253,6 +253,8 @@ namespace travel_gui
 
             if (editPkgResult == DialogResult.OK) // edit accepted
             {
+                // re-gather packages from DB
+                packages = PackageDB.GetPackages();
                 ShowPackages();
             }
             else // edit cancelled
