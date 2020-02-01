@@ -31,6 +31,9 @@ namespace travel_gui
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            // set index into packages to the first 
+            pkgPos = 0;
+
             // list of products associated with current package in detail view in packages tab
             List<string> pkgProducts;
 
@@ -44,13 +47,14 @@ namespace travel_gui
                 {
                     packages = PackageDB.GetPackages();
                 });
-                pkgWork.Start();
 
                 // access all products from db in thread 
                 Thread prodWork = new Thread(() => 
                 {
                     products = ProductsDB.GetAllProducts();
                 });
+
+                pkgWork.Start();
                 prodWork.Start();
 
                 pkgWork.Join();
@@ -59,7 +63,6 @@ namespace travel_gui
                 // access products and suppliers associated with current package
                 PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);   
 
-                pkgPos = 0;
                 ShowPackages();
                 ShowAllProducts();
                 ShowPkgProducts(pkgProducts, pkgProdSupps);
@@ -114,6 +117,11 @@ namespace travel_gui
 
             // some formatting
             pkgBasePriceTextBox.Text = FormatPrices(pkgBasePriceTextBox.Text);
+
+            // check for null before formatting
+            if (pkgAgencyCommissionTextBox.Text == "")
+                return;
+
             pkgAgencyCommissionTextBox.Text = FormatPrices(pkgAgencyCommissionTextBox.Text);
         }
 
@@ -250,9 +258,9 @@ namespace travel_gui
             else // edit cancelled
             {
                 // set back to un-edited package
-                packages[pkgPos] = oldPkg; 
+                packages[pkgPos] = oldPkg;
+                MessageBox.Show("Edit not completed. No rows in database affected.");
             }
-
         }
 
         /// <summary>
@@ -317,7 +325,7 @@ namespace travel_gui
         /// @author Harry
         private void btnAddProdToPkg_Click(object sender, EventArgs e)
         {
-            if (cmboBoxSupsOfProd.SelectedIndex > -1 && cmboBoxProducts.SelectedIndex > -1) // selection required
+            if (cmboBoxSupsOfProd.SelectedIndex > -1) // selection required
             {
                 // get product and supplier ids (to get ProductSupplierId)
                 int prodId = products[cmboBoxProducts.SelectedIndex].ProductID;
@@ -370,6 +378,15 @@ namespace travel_gui
             {
                 MessageBox.Show("Please select a product and its supplier.", "Select Error");
             }
+        }
+
+        /// <summary>
+        /// Re-gather data 
+        /// </summary>
+        /// @author Harry
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            this.frmMain_Load(sender, e);
         }
     }
 }

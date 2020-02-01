@@ -58,28 +58,15 @@ namespace travel_gui
                 pkgEndDateTextBox.Text = temp.ToShortDateString();
             }
 
-            pkgBasePriceTextBox.Text = oldPkg.PkgBasePrice.ToString("c2");
+            pkgBasePriceTextBox.Text = oldPkg.PkgBasePrice.ToString();
 
             if (oldPkg.PkgAgencyCommission == null)
                 pkgAgencyCommissionTextBox.Text = "";
             else
             {
                 decimal temp = Convert.ToDecimal(oldPkg.PkgAgencyCommission);
-                pkgAgencyCommissionTextBox.Text = temp.ToString("c2");
+                pkgAgencyCommissionTextBox.Text = temp.ToString();
             }
-
-            // TODO: GET RID OF TIMES ON DATES
-
-            // some formatting
-            //pkgBasePriceTextBox.Text = FormatPrices(pkgBasePriceTextBox.Text);
-            //pkgAgencyCommissionTextBox.Text = FormatPrices(pkgAgencyCommissionTextBox.Text);
-        }
-
-        private string FormatPrices(string price)
-        {
-            decimal temp = Convert.ToDecimal(price);
-
-            return temp.ToString("c2");
         }
 
         /// <summary>
@@ -95,6 +82,9 @@ namespace travel_gui
         /// </summary>
         private void btnAccept_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("OLD PACKAGE:\n\t" + oldPkg.PkgName + "\n\t" + oldPkg.PkgDesc + "\n\t" + oldPkg.PkgStartDate + "\n\t" + oldPkg.PkgEndDate + "\n"
+                + "NEWPKG\n\t" + newPkg.PkgName + "\n\t" + newPkg.PkgDesc + "\n\t" + newPkg.PkgStartDate + "\n\t" + newPkg.PkgEndDate);
+
             // VALIDATE
             if (Processor.ProcessName(newPkg, pkgNameTextBox) &&
                 Processor.ProcessStartDate(newPkg, pkgStartDateTextBox) &&

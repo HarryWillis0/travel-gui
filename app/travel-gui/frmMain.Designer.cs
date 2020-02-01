@@ -38,6 +38,7 @@
             System.Windows.Forms.Label pkgStartDateLabel1;
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbPkgs = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
             this.dataGrdViewPkgProds = new System.Windows.Forms.DataGridView();
             this.colProdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colProdSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,7 +51,6 @@
             this.btnAddPkg = new System.Windows.Forms.Button();
             this.btnEditPkg = new System.Windows.Forms.Button();
             this.pkgStartDateTextBox = new System.Windows.Forms.TextBox();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pkgEndDateTextBox = new System.Windows.Forms.TextBox();
             this.btnSkipToFirst = new System.Windows.Forms.Button();
             this.btnSkpToEnd = new System.Windows.Forms.Button();
@@ -66,7 +66,8 @@
             this.tbProdSupp = new System.Windows.Forms.TabPage();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
@@ -159,6 +160,7 @@
             // tbPkgs
             // 
             this.tbPkgs.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tbPkgs.Controls.Add(this.btnRefresh);
             this.tbPkgs.Controls.Add(this.label3);
             this.tbPkgs.Controls.Add(this.dataGrdViewPkgProds);
             this.tbPkgs.Controls.Add(this.grpBoxAddProdToPkg);
@@ -188,6 +190,15 @@
             this.tbPkgs.Size = new System.Drawing.Size(885, 336);
             this.tbPkgs.TabIndex = 0;
             this.tbPkgs.Text = "Packages";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(436, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(86, 13);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "Current Products";
             // 
             // dataGrdViewPkgProds
             // 
@@ -303,10 +314,6 @@
             this.pkgStartDateTextBox.ReadOnly = true;
             this.pkgStartDateTextBox.Size = new System.Drawing.Size(256, 20);
             this.pkgStartDateTextBox.TabIndex = 19;
-            // 
-            // packageBindingSource
-            // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // pkgEndDateTextBox
             // 
@@ -452,14 +459,19 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // label3
+            // btnRefresh
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(436, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 13);
-            this.label3.TabIndex = 24;
-            this.label3.Text = "Current Products";
+            this.btnRefresh.Location = new System.Drawing.Point(7, 306);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 25;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // packageBindingSource
+            // 
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // frmMain
             // 
@@ -519,6 +531,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colProdName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProdSupplier;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
 
