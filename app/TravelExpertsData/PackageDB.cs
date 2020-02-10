@@ -64,8 +64,8 @@ namespace TravelExpertsData
         /// Update a package in DB
         /// </summary>
         /// <param name="newPkg">The new package</param>
-        /// <returns>true on success, false otherwise</returns>
-        public static bool UpdatePackage(Package oldPkg, Package newPkg)
+        /// <returns>rows affected</returns>
+        public static int UpdatePackage(Package oldPkg, Package newPkg)
         {
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
@@ -82,7 +82,13 @@ namespace TravelExpertsData
                                     "PkgDesc = @NewPkgDesc, " +
                                     "PkgBasePrice = @NewPkgBasePrice, " +
                                     "PkgAgencyCommission = @NewPkgAgencyCommission " +
-                                "WHERE PackageId = @OldId"; // optimistic concurrency
+                                "WHERE PackageId = @OldId " +
+                                "AND PkgName = @OldPkgName " +
+                                "AND (PkgStartDate IS NULL OR PkgStartDate = @OldPkgStartDate) " +
+                                "AND (PkgEndDate IS NULL OR PkgEndDate = @OldPkgEndDate) " +
+                                "AND (PkgDesc IS NULL OR PkgDesc = @OldPkgDesc) " +
+                                "AND PkgBasePrice = @OldPkgBasePrice " +
+                                "AND (PkgAgencyCommission IS NULL OR PkgAgencyCommission = @OldPkgAgencyCommission)"; // optimistic concurrency
 
                 // start transaction
                 updatePkgTran = connection.BeginTransaction();
@@ -96,9 +102,12 @@ namespace TravelExpertsData
                 cmd.Parameters.AddWithValue("@NewPkgName", newPkg.PkgName);
                 cmd.Parameters.AddWithValue("@NewPkgBasePrice", newPkg.PkgBasePrice);
                 cmd.Parameters.AddWithValue("@OldId", oldPkg.PackageId);
+                cmd.Parameters.AddWithValue("@OldPkgName", oldPkg.PkgName);
+                cmd.Parameters.AddWithValue("@OldPkgBasePrice", oldPkg.PkgBasePrice);
 
                 // for nullable properties, have to check for null 
-                ProcessNewPkgNullables(cmd, newPkg);
+                ProcessNewPkgNullables(cmd, newPkg, "New");
+                ProcessNewPkgNullables(cmd, oldPkg, "Old");
                 
                 try
                 {
@@ -106,15 +115,15 @@ namespace TravelExpertsData
                     rowsAffected = cmd.ExecuteNonQuery();
 
                     // update failed
-                    if (rowsAffected != 1)
+                    if (rowsAffected == 0) // concurrency issue
                     {
                         updatePkgTran.Rollback();
-                        return false;
+                        return rowsAffected;
                     }
 
                     // commit transaction and close
                     updatePkgTran.Commit();
-                    return true;
+                    return rowsAffected;
                 }
                 catch (Exception ex)
                 {
@@ -140,7 +149,7 @@ namespace TravelExpertsData
                 string insert = "INSERT INTO Packages (PkgName, PkgStartDate, PkgEndDate, " +
                                                       "PkgDesc, PkgBasePrice, PkgAgencyCommission) " +
                                 "VALUES (@PkgName, @NewPkgStartDate, @NewPkgEndDate, " +
-                                        "@NewPkgDesc, @PkgBasePrice, @NewPkgAgencyCommission)";
+                                        "@NewPkgDesc, @NewPkgBasePrice, @NewPkgAgencyCommission)";
 
                 // start transaction
                 addNewPkgTran = connection.BeginTransaction();
@@ -155,7 +164,7 @@ namespace TravelExpertsData
                 cmd.Parameters.AddWithValue("@PkgBasePrice", newPkg.PkgBasePrice);
 
                 // for nullable properties, have to check for null
-                ProcessNewPkgNullables(cmd, newPkg);
+                ProcessNewPkgNullables(cmd, newPkg, "New");
 
                 try
                 {
@@ -235,27 +244,27 @@ namespace TravelExpertsData
         /// </summary>
         /// <param name="cmd">SqlCommand object that is going to run a query</param>
         /// <param name="pkg">Package of properties to test</param>
-        private static void ProcessNewPkgNullables(SqlCommand cmd, Package pkg)
+        private static void ProcessNewPkgNullables(SqlCommand cmd, Package pkg, string which)
         {
             if (pkg.PkgStartDate == null)
-                cmd.Parameters.AddWithValue("@NewPkgStartDate", DBNull.Value);
+                cmd.Parameters.AddWithValue("@" + which + "PkgStartDate", DBNull.Value);
             else
-                cmd.Parameters.AddWithValue("@NewPkgStartDate", pkg.PkgStartDate);
+                cmd.Parameters.AddWithValue("@" + which + "PkgStartDate", pkg.PkgStartDate);
 
             if (pkg.PkgEndDate == null)
-                cmd.Parameters.AddWithValue("@NewPkgEndDate", DBNull.Value);
+                cmd.Parameters.AddWithValue("@" + which + "PkgEndDate", DBNull.Value);
             else
-                cmd.Parameters.AddWithValue("@NewPkgEndDate", pkg.PkgEndDate);
+                cmd.Parameters.AddWithValue("@" + which + "PkgEndDate", pkg.PkgEndDate);
 
             if (pkg.PkgDesc == null)
-                cmd.Parameters.AddWithValue("@NewPkgDesc", DBNull.Value);
+                cmd.Parameters.AddWithValue("@" + which + "PkgDesc", DBNull.Value);
             else
-                cmd.Parameters.AddWithValue("@NewPkgDesc", pkg.PkgDesc);
+                cmd.Parameters.AddWithValue("@" + which + "PkgDesc", pkg.PkgDesc);
 
             if (pkg.PkgAgencyCommission == null)
-                cmd.Parameters.AddWithValue("@NewPkgAgencyCommission", DBNull.Value);
+                cmd.Parameters.AddWithValue("@" + which + "PkgAgencyCommission", DBNull.Value);
             else
-                cmd.Parameters.AddWithValue("@NewPkgAgencyCommission", pkg.PkgAgencyCommission);
+                cmd.Parameters.AddWithValue("@" + which + "PkgAgencyCommission", pkg.PkgAgencyCommission);
         }
 
         /// <summary>

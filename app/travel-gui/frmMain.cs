@@ -257,11 +257,15 @@ namespace travel_gui
                 packages = PackageDB.GetPackages();
                 ShowPackages();
             }
+            else if (editPkgResult == DialogResult.Abort) // concurrency issue
+            {
+                packages[pkgPos] = oldPkg;
+                MessageBox.Show("Edit aborted. Another user has modified or deleted that package.", "Edit Abort");
+            }
             else // edit cancelled
             {
                 // set back to un-edited package
                 packages[pkgPos] = oldPkg;
-                MessageBox.Show("Edit not completed. No rows in database affected.");
             }
         }
 

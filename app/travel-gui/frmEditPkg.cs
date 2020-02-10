@@ -92,9 +92,14 @@ namespace travel_gui
             { // input good
                try
                 {
-                    bool success = PackageDB.UpdatePackage(oldPkg, newPkg);
-                    if (success)
+                    int success = PackageDB.UpdatePackage(oldPkg, newPkg);
+
+                    if (success == 1)
                         this.DialogResult = DialogResult.OK;
+                    else if (success == 0) // there was a concurrency issue
+                    {
+                        this.DialogResult = DialogResult.Abort;
+                    }
                     else
                         this.DialogResult = DialogResult.Cancel;
                 }
