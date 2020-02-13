@@ -46,14 +46,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAddPkg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddPkg.Designer.cs">
+      <DependentUpon>frmAddPkg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditPkg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditPkg.Designer.cs">
+      <DependentUpon>frmEditPkg.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Processor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmAddPkg.resx">
+      <DependentUpon>frmAddPkg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditPkg.resx">
+      <DependentUpon>frmEditPkg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -66,6 +85,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Properties\DataSources\TravelExpertsData.Package.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -78,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TravelExpertsData\TravelExpertsData.csproj">
+      <Project>{ed34b2e8-17c0-4a7b-abb6-d1e178bacff7}</Project>
+      <Name>TravelExpertsData</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

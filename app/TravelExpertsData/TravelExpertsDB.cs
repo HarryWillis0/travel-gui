@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace TravelExpertsData
 {
+    /// <summary>
+    /// Connect to TravelExperts DB
+    /// </summary>
+    /// @author Harry
     public static class TravelExpertsDB
     {
         public static SqlConnection GetConnection() 
