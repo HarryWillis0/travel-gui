@@ -444,10 +444,13 @@ namespace travel_gui
                 {
                     ProductsDB.AddProducts(ProdName);
                     ShowProductsInProductsTab();
+                    LoadComboBox();
                     MessageBox.Show("New product succesfully added.", "Add Product");
                     clear();
+                    
                 }
                 ComProductId.Enabled = true;
+
             }
             catch (FormatException)
             {
@@ -463,17 +466,24 @@ namespace travel_gui
 
         private void clear()
         {
-            ComProductId.SelectedItem = "";
+            ComProductId.Text = "";
             txtProductName.Text = string.Empty;
         }
 
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
+           
+            LoadComboBox();
+        }
+
+        private void LoadComboBox()
+        {
+            ComProductId.Items.Clear();
             List<Products> dispProducts = ProductsDB.GetAllProducts();
             ViewProducts.DataSource = dispProducts;
 
             // loop through products and add ids to drop down
-            foreach (Products prod in products)
+            foreach (Products prod in dispProducts)
             {
                 ComProductId.Items.Add(prod.ProductID.ToString());
             }
