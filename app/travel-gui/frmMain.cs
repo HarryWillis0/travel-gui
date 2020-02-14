@@ -20,7 +20,7 @@ namespace travel_gui
 
         // product info
         List<Products> products;
-
+        
         // supplier of current product in combo box
         List<Supplier> suppliersOfProd;
 
@@ -43,7 +43,7 @@ namespace travel_gui
             try
             {
                 // access packages from db in thread (ASYNCHRONOUS) - Probably uneccessary
-                Thread pkgWork = new Thread(() => 
+                /*Thread pkgWork = new Thread(() => 
                 {
                     packages = PackageDB.GetPackages();
                 });
@@ -58,7 +58,9 @@ namespace travel_gui
                 prodWork.Start();
 
                 pkgWork.Join();
-                prodWork.Join();
+                prodWork.Join();*/
+                packages = PackageDB.GetPackages();
+                products = ProductsDB.GetAllProducts();
 
                 // access products and suppliers associated with current package
                 PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);   
@@ -112,8 +114,16 @@ namespace travel_gui
         /// @author Harry
         private void ShowPackages()
         {
-            packageBindingSource.Clear();
-            packageBindingSource.Add(packages[pkgPos]);
+            /*packageBindingSource.Clear();
+            packageBindingSource.Add(packages[pkgPos]);*/// hmmmmmmmmmmm
+
+            packageIdTextBox.Text = packages[pkgPos].PackageId.ToString();
+            pkgAgencyCommissionTextBox.Text = packages[pkgPos].PkgAgencyCommission.ToString();
+            pkgBasePriceTextBox.Text = packages[pkgPos].PkgBasePrice.ToString();
+            pkgDescTextBox.Text = packages[pkgPos].PkgDesc;
+            pkgStartDateTextBox.Text = packages[pkgPos].PkgStartDate.ToString();
+            pkgEndDateTextBox.Text = packages[pkgPos].PkgEndDate.ToString();
+            pkgNameTextBox.Text = packages[pkgPos].PkgName;
 
             // some formatting
             pkgBasePriceTextBox.Text = FormatPrices(pkgBasePriceTextBox.Text);
@@ -393,6 +403,94 @@ namespace travel_gui
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             this.frmMain_Load(sender, e);
+        }
+
+        private void btnGetSingleProducts_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int ProductID = Convert.ToInt32(txtProductID.Text);
+                Products myProduct = ProductsDB.GetProducts(ProductID);
+                txtProductName.Text = myProduct.ProductName;
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Select or type valid Product ID", "Incorrect Input");
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Product Id does not exist.", "Incorrect Input");
+            }
+        }
+
+        private void btnModifyProducts_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int ProdID = Convert.ToInt32(txtProductID.Text);
+                string ProdName = txtProductName.Text;
+                if (ProdName == "")
+                {
+                    MessageBox.Show("Null values not allowed", "Incorrect Value");
+                }
+                else
+                {
+                    ProductsDB.ModifyProducts(ProdName, ProdID);
+                    MessageBox.Show("Product name updated successfully", "Update");
+                    clear();
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Null values are not allowed", "Null Value Exception");
+            }
+        }
+
+        private void btnAddProducts_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int ProdID = Convert.ToInt32(txtProductID.Text);
+                string ProdName = txtProductName.Text;
+                if (ProdID == null || ProdName == null)
+                {
+                    MessageBox.Show("Null values are not allowed.", "Null Value Error");
+                }
+                else
+                {
+                    ProductsDB.AddProducts(ProdID, ProdName);
+                    ShowProductsInProductsTab();
+                    MessageBox.Show("New product succesfully added.", "Add Product");
+                    clear();
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Null values are not allowed, Type correct information.", "Null Value / Incorrect Format");
+            }
+        }
+
+        private void ShowProductsInProductsTab()
+        {
+            List<Products> dispProducts = ProductsDB.GetAllProducts();
+            ViewProducts.DataSource = dispProducts;
+        }
+
+        private void clear()
+        {
+            txtProductID.Text = string.Empty;
+            txtProductName.Text = string.Empty;
+            txtProductID.Focus();
+        }
+
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            List<Products> dispProducts = ProductsDB.GetAllProducts();
+            ViewProducts.DataSource = dispProducts;
+
+            // loop through products and add ids to drop down
+            foreach (Products prod in products)
+                ComProductId.Items.Add(prod.ProductID.ToString());
         }
     }
 }

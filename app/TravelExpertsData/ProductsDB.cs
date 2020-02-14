@@ -53,5 +53,65 @@ namespace TravelExpertsData
 
             return products;
         }
+
+        public static Products GetProducts(int ProductID)
+        {
+            Products product = null;
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                //SQL query with parameter selection to extract one product data
+                string query = "SELECT * FROM products WHERE productid = @productID";
+
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@productID", ProductID);
+                    connection.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            product = new Products();
+                            product.ProductID = (int)reader["productID"];
+                            product.ProductName = reader["prodName"].ToString();
+                        }
+                    }
+                }
+            }
+            return product;
+        }
+
+        // updating the product name in travel experts product table
+        public static void ModifyProducts(string ProdName, int ProductID)
+        {
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query = "UPDATE products SET prodName = @prodName WHERE productID = @ProductID";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@productID", ProductID);
+                    cmd.Parameters.AddWithValue("@prodName", ProdName);
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // Add new products method
+        public static void AddProducts(int ProdID, string ProdName)
+        {
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query = "SET IDENTITY_INSERT products ON " +
+                               "INSERT INTO products (ProductID, ProdName) VALUES (@ProdID, @ProdName) " +
+                               "SET IDENTITY_INSERT products OFF";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@ProdID", ProdID);
+                    cmd.Parameters.AddWithValue("@ProdName", ProdName);
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
