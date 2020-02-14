@@ -36,8 +36,9 @@
             System.Windows.Forms.Label pkgNameLabel;
             System.Windows.Forms.Label pkgEndDateLabel1;
             System.Windows.Forms.Label pkgStartDateLabel1;
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tbPkgs = new System.Windows.Forms.TabPage();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGrdViewPkgProds = new System.Windows.Forms.DataGridView();
             this.colProdName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,9 +65,22 @@
             this.tbProds = new System.Windows.Forms.TabPage();
             this.tbSuppliers = new System.Windows.Forms.TabPage();
             this.tbProdSupp = new System.Windows.Forms.TabPage();
+            this.gbAddSupplier = new System.Windows.Forms.GroupBox();
+            this.btnAddSupplier = new System.Windows.Forms.Button();
+            this.lstboxSuppliers = new System.Windows.Forms.ListBox();
+            this.txtPSProdName = new System.Windows.Forms.TextBox();
+            this.txtPSProdID = new System.Windows.Forms.TextBox();
+            this.lblPSProductName = new System.Windows.Forms.Label();
+            this.lblPSProductID = new System.Windows.Forms.Label();
+            this.lblPSSuppliers = new System.Windows.Forms.Label();
+            this.dataGridViewProdSuppliers = new System.Windows.Forms.DataGridView();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnFirstItem = new System.Windows.Forms.Button();
+            this.btnLastItem = new System.Windows.Forms.Button();
+            this.btnNextItem = new System.Windows.Forms.Button();
+            this.btnPreviousItem = new System.Windows.Forms.Button();
+            this.btnRemoveSupplier = new System.Windows.Forms.Button();
             this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
@@ -75,10 +89,13 @@
             pkgNameLabel = new System.Windows.Forms.Label();
             pkgEndDateLabel1 = new System.Windows.Forms.Label();
             pkgStartDateLabel1 = new System.Windows.Forms.Label();
-            this.tabControl1.SuspendLayout();
+            this.mainTabControl.SuspendLayout();
             this.tbPkgs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).BeginInit();
             this.grpBoxAddProdToPkg.SuspendLayout();
+            this.tbProdSupp.SuspendLayout();
+            this.gbAddSupplier.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,17 +162,18 @@
             pkgStartDateLabel1.TabIndex = 18;
             pkgStartDateLabel1.Text = "Start Date:";
             // 
-            // tabControl1
+            // mainTabControl
             // 
-            this.tabControl1.Controls.Add(this.tbPkgs);
-            this.tabControl1.Controls.Add(this.tbProds);
-            this.tabControl1.Controls.Add(this.tbSuppliers);
-            this.tabControl1.Controls.Add(this.tbProdSupp);
-            this.tabControl1.Location = new System.Drawing.Point(12, 67);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(893, 362);
-            this.tabControl1.TabIndex = 0;
+            this.mainTabControl.Controls.Add(this.tbPkgs);
+            this.mainTabControl.Controls.Add(this.tbProds);
+            this.mainTabControl.Controls.Add(this.tbSuppliers);
+            this.mainTabControl.Controls.Add(this.tbProdSupp);
+            this.mainTabControl.Location = new System.Drawing.Point(12, 67);
+            this.mainTabControl.Name = "mainTabControl";
+            this.mainTabControl.SelectedIndex = 0;
+            this.mainTabControl.Size = new System.Drawing.Size(893, 362);
+            this.mainTabControl.TabIndex = 0;
+            this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.mainTabControl_SelectedIndexChanged);
             // 
             // tbPkgs
             // 
@@ -190,6 +208,16 @@
             this.tbPkgs.Size = new System.Drawing.Size(885, 336);
             this.tbPkgs.TabIndex = 0;
             this.tbPkgs.Text = "Packages";
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(7, 306);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 25;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // label3
             // 
@@ -431,6 +459,14 @@
             // 
             // tbProdSupp
             // 
+            this.tbProdSupp.Controls.Add(this.btnRemoveSupplier);
+            this.tbProdSupp.Controls.Add(this.gbAddSupplier);
+            this.tbProdSupp.Controls.Add(this.txtPSProdName);
+            this.tbProdSupp.Controls.Add(this.txtPSProdID);
+            this.tbProdSupp.Controls.Add(this.lblPSProductName);
+            this.tbProdSupp.Controls.Add(this.lblPSProductID);
+            this.tbProdSupp.Controls.Add(this.lblPSSuppliers);
+            this.tbProdSupp.Controls.Add(this.dataGridViewProdSuppliers);
             this.tbProdSupp.Location = new System.Drawing.Point(4, 22);
             this.tbProdSupp.Name = "tbProdSupp";
             this.tbProdSupp.Padding = new System.Windows.Forms.Padding(3);
@@ -438,6 +474,94 @@
             this.tbProdSupp.TabIndex = 2;
             this.tbProdSupp.Text = "Product Suppliers";
             this.tbProdSupp.UseVisualStyleBackColor = true;
+            // 
+            // gbAddSupplier
+            // 
+            this.gbAddSupplier.Controls.Add(this.btnAddSupplier);
+            this.gbAddSupplier.Controls.Add(this.lstboxSuppliers);
+            this.gbAddSupplier.Location = new System.Drawing.Point(486, 13);
+            this.gbAddSupplier.Name = "gbAddSupplier";
+            this.gbAddSupplier.Size = new System.Drawing.Size(364, 302);
+            this.gbAddSupplier.TabIndex = 8;
+            this.gbAddSupplier.TabStop = false;
+            this.gbAddSupplier.Text = "Add Product Supplier";
+            // 
+            // btnAddSupplier
+            // 
+            this.btnAddSupplier.Location = new System.Drawing.Point(261, 20);
+            this.btnAddSupplier.Name = "btnAddSupplier";
+            this.btnAddSupplier.Size = new System.Drawing.Size(91, 23);
+            this.btnAddSupplier.TabIndex = 1;
+            this.btnAddSupplier.Text = "Add Supplier";
+            this.btnAddSupplier.UseVisualStyleBackColor = true;
+            this.btnAddSupplier.Click += new System.EventHandler(this.btnAddSupplier_Click);
+            // 
+            // lstboxSuppliers
+            // 
+            this.lstboxSuppliers.FormattingEnabled = true;
+            this.lstboxSuppliers.Location = new System.Drawing.Point(17, 20);
+            this.lstboxSuppliers.Name = "lstboxSuppliers";
+            this.lstboxSuppliers.Size = new System.Drawing.Size(232, 264);
+            this.lstboxSuppliers.TabIndex = 0;
+            // 
+            // txtPSProdName
+            // 
+            this.txtPSProdName.Location = new System.Drawing.Point(276, 13);
+            this.txtPSProdName.Name = "txtPSProdName";
+            this.txtPSProdName.ReadOnly = true;
+            this.txtPSProdName.Size = new System.Drawing.Size(142, 20);
+            this.txtPSProdName.TabIndex = 7;
+            // 
+            // txtPSProdID
+            // 
+            this.txtPSProdID.Location = new System.Drawing.Point(95, 13);
+            this.txtPSProdID.Name = "txtPSProdID";
+            this.txtPSProdID.ReadOnly = true;
+            this.txtPSProdID.Size = new System.Drawing.Size(61, 20);
+            this.txtPSProdID.TabIndex = 6;
+            // 
+            // lblPSProductName
+            // 
+            this.lblPSProductName.AutoSize = true;
+            this.lblPSProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPSProductName.Location = new System.Drawing.Point(183, 17);
+            this.lblPSProductName.Name = "lblPSProductName";
+            this.lblPSProductName.Size = new System.Drawing.Size(97, 16);
+            this.lblPSProductName.TabIndex = 4;
+            this.lblPSProductName.Text = "Product Name:";
+            // 
+            // lblPSProductID
+            // 
+            this.lblPSProductID.AutoSize = true;
+            this.lblPSProductID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPSProductID.Location = new System.Drawing.Point(16, 17);
+            this.lblPSProductID.Name = "lblPSProductID";
+            this.lblPSProductID.Size = new System.Drawing.Size(73, 16);
+            this.lblPSProductID.TabIndex = 3;
+            this.lblPSProductID.Text = "Product ID:";
+            // 
+            // lblPSSuppliers
+            // 
+            this.lblPSSuppliers.AutoSize = true;
+            this.lblPSSuppliers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPSSuppliers.Location = new System.Drawing.Point(16, 55);
+            this.lblPSSuppliers.Name = "lblPSSuppliers";
+            this.lblPSSuppliers.Size = new System.Drawing.Size(65, 16);
+            this.lblPSSuppliers.TabIndex = 1;
+            this.lblPSSuppliers.Text = "Suppliers";
+            // 
+            // dataGridViewProdSuppliers
+            // 
+            this.dataGridViewProdSuppliers.AllowUserToAddRows = false;
+            this.dataGridViewProdSuppliers.AllowUserToDeleteRows = false;
+            this.dataGridViewProdSuppliers.AllowUserToResizeColumns = false;
+            this.dataGridViewProdSuppliers.AllowUserToResizeRows = false;
+            this.dataGridViewProdSuppliers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewProdSuppliers.Location = new System.Drawing.Point(19, 80);
+            this.dataGridViewProdSuppliers.Name = "dataGridViewProdSuppliers";
+            this.dataGridViewProdSuppliers.ReadOnly = true;
+            this.dataGridViewProdSuppliers.Size = new System.Drawing.Size(399, 217);
+            this.dataGridViewProdSuppliers.TabIndex = 0;
             // 
             // lblTitle
             // 
@@ -451,6 +575,7 @@
             // 
             // btnExit
             // 
+            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnExit.Location = new System.Drawing.Point(860, 438);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(50, 23);
@@ -459,15 +584,55 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // btnRefresh
+            // btnFirstItem
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(7, 306);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 25;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            this.btnFirstItem.Location = new System.Drawing.Point(35, 431);
+            this.btnFirstItem.Name = "btnFirstItem";
+            this.btnFirstItem.Size = new System.Drawing.Size(31, 23);
+            this.btnFirstItem.TabIndex = 21;
+            this.btnFirstItem.Text = "|<";
+            this.btnFirstItem.UseVisualStyleBackColor = true;
+            this.btnFirstItem.Click += new System.EventHandler(this.btnFirstItem_Click);
+            // 
+            // btnLastItem
+            // 
+            this.btnLastItem.Location = new System.Drawing.Point(198, 431);
+            this.btnLastItem.Name = "btnLastItem";
+            this.btnLastItem.Size = new System.Drawing.Size(31, 23);
+            this.btnLastItem.TabIndex = 20;
+            this.btnLastItem.Text = ">|";
+            this.btnLastItem.UseVisualStyleBackColor = true;
+            this.btnLastItem.Click += new System.EventHandler(this.btnLastItem_Click);
+            // 
+            // btnNextItem
+            // 
+            this.btnNextItem.Location = new System.Drawing.Point(135, 431);
+            this.btnNextItem.Name = "btnNextItem";
+            this.btnNextItem.Size = new System.Drawing.Size(57, 23);
+            this.btnNextItem.TabIndex = 19;
+            this.btnNextItem.Text = "Next";
+            this.btnNextItem.UseVisualStyleBackColor = true;
+            this.btnNextItem.Click += new System.EventHandler(this.btnNextItem_Click);
+            // 
+            // btnPreviousItem
+            // 
+            this.btnPreviousItem.Location = new System.Drawing.Point(72, 431);
+            this.btnPreviousItem.Name = "btnPreviousItem";
+            this.btnPreviousItem.Size = new System.Drawing.Size(57, 23);
+            this.btnPreviousItem.TabIndex = 18;
+            this.btnPreviousItem.Text = "Previous";
+            this.btnPreviousItem.UseVisualStyleBackColor = true;
+            this.btnPreviousItem.Click += new System.EventHandler(this.btnPreviousItem_Click);
+            // 
+            // btnRemoveSupplier
+            // 
+            this.btnRemoveSupplier.Location = new System.Drawing.Point(322, 305);
+            this.btnRemoveSupplier.Name = "btnRemoveSupplier";
+            this.btnRemoveSupplier.Size = new System.Drawing.Size(96, 23);
+            this.btnRemoveSupplier.TabIndex = 2;
+            this.btnRemoveSupplier.Text = "Remove Supplier";
+            this.btnRemoveSupplier.UseVisualStyleBackColor = true;
+            this.btnRemoveSupplier.Click += new System.EventHandler(this.btnRemoveSupplier_Click);
             // 
             // packageBindingSource
             // 
@@ -478,20 +643,29 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(922, 473);
+            this.Controls.Add(this.btnFirstItem);
+            this.Controls.Add(this.btnLastItem);
             this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnNextItem);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.btnPreviousItem);
+            this.Controls.Add(this.mainTabControl);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Travel Experts";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.tabControl1.ResumeLayout(false);
+            this.mainTabControl.ResumeLayout(false);
             this.tbPkgs.ResumeLayout(false);
             this.tbPkgs.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).EndInit();
             this.grpBoxAddProdToPkg.ResumeLayout(false);
             this.grpBoxAddProdToPkg.PerformLayout();
+            this.tbProdSupp.ResumeLayout(false);
+            this.tbProdSupp.PerformLayout();
+            this.gbAddSupplier.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -500,7 +674,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.TabPage tbPkgs;
         private System.Windows.Forms.TabPage tbProds;
         private System.Windows.Forms.TabPage tbSuppliers;
@@ -532,6 +706,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colProdSupplier;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.TextBox txtPSProdName;
+        private System.Windows.Forms.TextBox txtPSProdID;
+        private System.Windows.Forms.Label lblPSProductName;
+        private System.Windows.Forms.Label lblPSProductID;
+        private System.Windows.Forms.Label lblPSSuppliers;
+        private System.Windows.Forms.DataGridView dataGridViewProdSuppliers;
+        private System.Windows.Forms.GroupBox gbAddSupplier;
+        private System.Windows.Forms.Button btnAddSupplier;
+        private System.Windows.Forms.ListBox lstboxSuppliers;
+        private System.Windows.Forms.Button btnFirstItem;
+        private System.Windows.Forms.Button btnLastItem;
+        private System.Windows.Forms.Button btnNextItem;
+        private System.Windows.Forms.Button btnPreviousItem;
+        private System.Windows.Forms.Button btnRemoveSupplier;
     }
 }
 

@@ -4,75 +4,147 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
 
 namespace TravelExpertsData
 {
-    /// <summary>
-    /// Provides static methods for accessing and modifying Product Supplier table in Travel Expert DB.
-    /// </summary>
-    class ProductSupplierDB
+    public static class ProductSupplierDB
     {
         /// <summary>
-        /// Retrieves a specific Product Supplier based on supplier's ID.
+        /// Get all available suppliers from supplier table in DB.
         /// </summary>
-        /// <param name="supplierID">The supplier's ID to be returned.</param>
-        /// <returns>ProductSupplier object from database.</returns>
-        public static ProductSuppliers GetProductSuppliers(int ProductSupplierId)
+        /// <returns>List of supplier objects</returns>
+        public static List<Supplier> GetProductSuppliersByProductID(int prodID)
         {
-            ProductSuppliers supplier = new ProductSuppliers(); // Supplier that will be retrieved.
+            List<Supplier> Suppliers = new List<Supplier>();
+            Supplier sup;
 
-            // Connection with DB to retrieve data
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
-                string query = "SELECT ProductSupplierId, ProductId, SupplierId " +
-                               "FROM Products_Suppliers " +
-                               "WHERE ProductSupplierId = @ProductSupplierId";
+                // query to get product supplier id
+                string query = "SELECT SupName, Products_Suppliers.SupplierID " +
+                               "FROM [Products_Suppliers] " +
+                                    "JOIN Suppliers " +
+                                        "ON Products_Suppliers.SupplierId = Suppliers.SupplierId " +
+                               "WHERE ProductID = @prodID " +
+                               "ORDER BY SupName";
 
-                // Command to retrieve data with query and db connection.
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
-                    cmd.Parameters.AddWithValue("@ProductSupplierID", ProductSupplierId); // Set parameter's value.
-                    connection.Open();
-
-                    // Read data from db and assign to object's properties.
-                    using (SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
+                    try
                     {
-                        if(reader.Read()) // If there is data
+                        connection.Open();
+                        cmd.Parameters.AddWithValue("@prodID", prodID);
+
+                        // run query
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            supplier.ProductSupplierID = (int)reader["ProductSupplierId"];
-                            supplier.ProductID = (int)reader["ProductId"];
-                            supplier.SupplierID = (int)reader["SupplierId"];
+                            while (reader.Read()) // found result
+                            {
+                                sup = new Supplier();
+                                sup.SupName = reader["SupName"].ToString();
+                                sup.SupplierId = Convert.ToInt32(reader["SupplierID"]);
+                                Suppliers.Add(sup);
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
                     }
                 }
             }
-
-            return supplier;
-        } // End GetProductSuppliers method
+            return Suppliers;
+        }
 
         /// <summary>
-        /// Update Product Supplier in DB using two objects for comparison. This prevents concurrency errors
-        /// when multiple users are updating the DB at the same time.
+        /// Get product supplier id for certain product and supplier
         /// </summary>
-        /// <param name="oldProductSupplier">The old ProductSupplier object that was initially retrieved.</param>
-        /// <param name="newProductSupplier">The new ProductSupplier object that is currently on the form.</param>
-        /// <returns>Number of rows affected in variable 'count'. It will be either 1 row or 0 row. Can be use as true/false</returns>
-        public static bool UpdateProductSupplier(ProductSuppliers oldProductSupplier, ProductSuppliers newProductSupplier)
+        /// <param name="prodId">The product id</param>
+        /// <param name="supId">The product's supplier id/param>
+        /// <returns>The product supplier id, or -1 if query fails</returns>
+        public static int GetId(int prodId, int supId)
         {
-            int count; // How many rows updated
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                // query to get product supplier id
+                string query = "SELECT ProductSupplierId " +
+                               "FROM Products_Suppliers " +
+                               "WHERE ProductId = @ProductId " +
+                               "AND SupplierId = @SupplierId";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    try
+                    {
+                        connection.Open();
 
-            // SQL Update statement to update only the shipped date
-            string updateStatement =
-                "UPDATE Products_Suppliers SET " +
-                "ShippedDate = @newShippedDate " +
-                "WHERE OrderID = @oldOrderID " + // to identify record
-                " AND CustomerID = @oldCustomerID " + // remainig conditions - optimistic concurrency
-                " AND OrderDate = @oldOrderDate " +
-                " AND RequiredDate = @oldRequiredDate " +
-                " AND (ShippedDate = @oldShippedDate OR (ShippedDate IS NULL AND  @oldShippedDate IS NULL))";
+                        // add parameter to query
+                        cmd.Parameters.AddWithValue("@ProductId", prodId);
+                        cmd.Parameters.AddWithValue("@SupplierId", supId);
 
+                        // run query
+                        SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.SingleRow);
+                        
+                        if (reader.Read()) // found result
+                        {
+                            return (int)reader["ProductSupplierId"];
+                        }
 
+                        // search failed
+                        return -1;
+                    }
+                    catch(Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }
+        }
+
+        public static int AddProductSupplier(int prodID, int supID)
+        {
+            int result = 0;
+
+            string query = "INSERT INTO Products_Suppliers (ProductID, SupplierID) " +
+                                "VALUES (@prodID, @supID)";
+
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    // Add parameters
+                    cmd.Parameters.AddWithValue("@prodID", prodID);
+                    cmd.Parameters.AddWithValue("@supID", supID);
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            } // close and recycle connection
+
+            return result;
+        }
+
+        public static int RemoveProductSupplier(int prodID, int supID)
+        {
+            int result = 0;
+
+            string query = "DELETE FROM Products_Suppliers " +
+                                "WHERE ProductID = @prodID " +
+                                    "AND SupplierID = @supID";
+
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    // Add parameters
+                    cmd.Parameters.AddWithValue("@prodID", prodID);
+                    cmd.Parameters.AddWithValue("@supID", supID);
+
+                    result = cmd.ExecuteNonQuery();
+                }
+            } // close and recycle connection
+
+            return result;
         }
     }
 }
