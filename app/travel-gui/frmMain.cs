@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -53,16 +54,15 @@ namespace travel_gui
         {
             switch (mainTabControl.SelectedIndex)
             {
-                case 0:
+                case 0: // Packages Tab
                     loadMainFormData();
                     break;
-                case 1:
+                case 1: // Products Tab
                     break;
-                case 2:
+                case 2: // Suppliers Tab
                     break;
-                case 3:
+                case 3: // PRoduct Suppliers Tab
                     loadProductSupplierData();
-                    
                     break;
             }
         }
@@ -103,45 +103,65 @@ namespace travel_gui
                     ex.GetType().ToString());
             }
         }
+
+        /// <summary>
+        /// Load data for Product Suppliers tab
+        /// </summary>
+        /// <param name="productIndex">Current index of Product Supplier list. Optional parameter.</param>
+        /// <returns>Rows affected by query, 1 for success and 0 for failure</returns>
+        // @author Chi 
         private void loadProductSupplierData(int productIndex = 0)
         {
+            // Clear list box and data grid view
             lstboxSuppliers.Items.Clear();
             dataGridViewProdSuppliers.Columns.Clear();
             
+            // Set current product's view to index of 'products' list (global variable).
             Products curProduct = products[productIndex];
             curProductSuppliers = ProductSupplierDB.GetProductSuppliersByProductID(curProduct.ProductID);
 
+            // Display current product's ID and Name.
             txtPSProdID.Text = curProduct.ProductID.ToString();
             txtPSProdName.Text = curProduct.ProductName;
 
+            // Set customized properties for Data Grid View.
             dataGridViewProdSuppliers.AutoGenerateColumns = false;
             dataGridViewProdSuppliers.DataSource = curProductSuppliers;
 
+            // Created and bind custom column to data source's data property SupplierId.
             DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn();
             idColumn.Name = "Supplier's ID";
             idColumn.DataPropertyName = "SupplierId";
             idColumn.Width = 100;
             idColumn.ReadOnly = true;
 
+            // Created and bind custom column to data source's data property SupName.
             DataGridViewTextBoxColumn nameColumn = new DataGridViewTextBoxColumn();
             nameColumn.Name = "Supplier's Name";
             nameColumn.DataPropertyName = "SupName";
             nameColumn.Width = 239;
             nameColumn.ReadOnly = true;
 
+            // Add data bound columns to Data Grid View.
             dataGridViewProdSuppliers.Columns.Add(idColumn);
             dataGridViewProdSuppliers.Columns.Add(nameColumn);
 
+            // List of all suppliers
             List<Supplier> allSuppliers = SuppliersDB.GetAllSuppliers();
 
-            filteredSuppliers =  new List<Supplier>(allSuppliers.Where(Sup => curProductSuppliers.All(sup2 => sup2.SupplierId != Sup.SupplierId)));
+            // Get a list of suppliers that are currently not added to current product's suppliers list
+            filteredSuppliers =  new List<Supplier>(allSuppliers.Where(
+                Sup => curProductSuppliers.All(
+                    sup2 => sup2.SupplierId != Sup.SupplierId
+                    )));
+
+            // Add/Update filtered list to list box to prevent customer from adding  
+            // same suppliers to product's supplier list.
             foreach (Supplier sup in filteredSuppliers)
             {
                 lstboxSuppliers.Items.Add(sup.SupName);
             }
-
         }
-
 
         /// <summary>
         /// Populate data grid view on packages tab with
@@ -468,16 +488,28 @@ namespace travel_gui
             this.frmMain_Load(sender, e);
         }
 
+        /// <summary>
+        /// Set view to first item in product's list.
+        /// </summary>
+        /// @author Chi
         private void btnFirstItem_Click(object sender, EventArgs e)
         {
             loadProductSupplierData();
         }
 
+        /// <summary>
+        /// Set view to last item in product's list.
+        /// </summary>
+        /// @author Chi
         private void btnLastItem_Click(object sender, EventArgs e)
         {
             loadProductSupplierData(products.Count - 1);
         }
 
+        /// <summary>
+        /// Display next item in product's list.
+        /// </summary>
+        /// @author Chi
         private void btnNextItem_Click(object sender, EventArgs e)
         {
             int currentIndex = Convert.ToInt32(txtPSProdID.Text);
@@ -488,6 +520,10 @@ namespace travel_gui
                 loadProductSupplierData(currentIndex);
         }
 
+        /// <summary>
+        /// Display previous item in product's list.
+        /// </summary>
+        /// @author Chi
         private void btnPreviousItem_Click(object sender, EventArgs e)
         {
             int currentIndex = Convert.ToInt32(txtPSProdID.Text);
@@ -499,59 +535,85 @@ namespace travel_gui
                 loadProductSupplierData(currentIndex - 1);
         }
 
+        /// <summary>
+        /// Operations for click event on Add Supplier button.
+        /// </summary>
+        /// @author Chi
         private void btnAddSupplier_Click(object sender, EventArgs e)
         {
-            Supplier curSupplier;
-            int currentSupID; 
-            int currentProductID = Convert.ToInt32(txtPSProdID.Text);
-            int currentSupplierIndex = lstboxSuppliers.SelectedIndex;
+            Supplier curSupplier; // Currently select supplier
+            int currentSupID;  // Currently select supplier's ID
+            int currentProductID = Convert.ToInt32(txtPSProdID.Text); // Current product's ProductID
+            int currentSupplierIndex = lstboxSuppliers.SelectedIndex; // Current index of supplier selected in list box
 
-            if (currentSupplierIndex >= 0)
+            if (currentSupplierIndex >= 0) // If user have selected an item from list box
             {
+                // Set current supplier's ID to supplier selected in list box.
                 curSupplier = filteredSuppliers[currentSupplierIndex];
                 currentSupID = curSupplier.SupplierId;
 
+                // Verify if supplier is already added to product's suppliers list.
                 int result = ProductSupplierDB.GetId(currentProductID, currentSupID);
 
-                if(result < 0)
+                if(result < 0) // If supplier is not in product's supplier list.
                 {
                     try
                     {
+                        // Add supplier to current product, reset/reload view for current product
+                        // and notify user that supplier was added successfully.
                         ProductSupplierDB.AddProductSupplier(currentProductID, currentSupID);
                         loadProductSupplierData(currentProductID - 1);
                         MessageBox.Show("Supplier Added", "Success");
                     }
                     catch (Exception ex)
                     {
+                        // Notify user of optimistic concurrency error or DB error.
                         MessageBox.Show("Unable to Add Supplier.\nThe Product Supplier was either removed or updated.\n\n" + 
                                         ex.Message, "Unexpected Database Error");
                     }
-                    
                 }
                 else
                     MessageBox.Show("That supplier is already added to the product", "Failed");
-
             }
             else
                 MessageBox.Show("Please choose a supplier.", "No supplier selected");
         }
 
+        /// <summary>
+        /// Operations for click event on Remove Supplier button.
+        /// </summary>
+        /// @author Chi
         private void btnRemoveSupplier_Click(object sender, EventArgs e)
         {
-            int currentSupID;
-            int currentProductID = Convert.ToInt32(txtPSProdID.Text);
-            
-            int row = dataGridViewProdSuppliers.CurrentRow.Index;
-            Supplier selectedSupplier = curProductSuppliers[row];
-            currentSupID = selectedSupplier.SupplierId;
+            int currentSupID; // Currently select supplier's ID.
+            int currentProductID = Convert.ToInt32(txtPSProdID.Text); // Currently viewing product's ID.
+
+            int row = dataGridViewProdSuppliers.CurrentRow.Index; // Index of currently selected row in DGV.
+            Supplier selectedSupplier = curProductSuppliers[row]; // Supplier that was selected/highlighted on DGV.
+            currentSupID = selectedSupplier.SupplierId; // Set current supplier's ID to selected supplier.
 
             try {
+                // Remove supplier for current product, reset/reload view for current product
+                // and notify user that supplier was added successfully.
                 ProductSupplierDB.RemoveProductSupplier(currentProductID, currentSupID);
                 loadProductSupplierData(currentProductID - 1);
                 MessageBox.Show("Supplier Removed.", "Success");
             }
+            catch (SqlException ex)
+            {
+                if (ex.Errors[0].Number == 547 || // Foreign Key violation
+                        ex.Errors[0].Number == 2601 // Primary key violation
+                        )
+                {
+                    // Notify user of DB violation
+                    MessageBox.Show("Unable to Add Supplier.\n" +
+                        "The Product Supplier is currently part of a booking or package.\n\n", 
+                        "Supplier In Use");
+                }
+            }
             catch (Exception ex)
             {
+                // Notify user of optimistic concurrency error.
                 MessageBox.Show("Unable to Add Supplier.\nThe Product Supplier was either removed or updated.\n\n" +
                                         ex.Message, "Unexpected Database Error");
             }
