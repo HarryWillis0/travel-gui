@@ -30,7 +30,10 @@ namespace travel_gui
         // list of supplier names of the products associated with package in detail view in packages tab
         List<string> pkgProdSupps;
 
+        // List of suppliers of selected product
         List<Supplier> curProductSuppliers;
+
+        // List of suppliers that are not suppliers of selected product
         List<Supplier> filteredSuppliers;
 
         public frmMain()
@@ -38,11 +41,14 @@ namespace travel_gui
             InitializeComponent();
         }
 
+        // Event when page loads.
         private void frmMain_Load(object sender, EventArgs e)
         {
             loadMainFormData();
         }
 
+
+        // Events based on tab selected.
         private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (mainTabControl.SelectedIndex)
@@ -61,6 +67,7 @@ namespace travel_gui
             }
         }
 
+        // Load data for main form (first tab - Packages).
         private void loadMainFormData()
         {
             try
