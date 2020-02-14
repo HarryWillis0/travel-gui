@@ -405,29 +405,12 @@ namespace travel_gui
             this.frmMain_Load(sender, e);
         }
 
-        private void btnGetSingleProducts_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int ProductID = Convert.ToInt32(txtProductID.Text);
-                Products myProduct = ProductsDB.GetProducts(ProductID);
-                txtProductName.Text = myProduct.ProductName;
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Select or type valid Product ID", "Incorrect Input");
-            }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show("Product Id does not exist.", "Incorrect Input");
-            }
-        }
 
         private void btnModifyProducts_Click(object sender, EventArgs e)
         {
             try
             {
-                int ProdID = Convert.ToInt32(txtProductID.Text);
+                int ProdID = Convert.ToInt32(ComProductId.SelectedItem);
                 string ProdName = txtProductName.Text;
                 if (ProdName == "")
                 {
@@ -438,6 +421,7 @@ namespace travel_gui
                     ProductsDB.ModifyProducts(ProdName, ProdID);
                     MessageBox.Show("Product name updated successfully", "Update");
                     clear();
+                    ShowProductsInProductsTab();
                 }
             }
             catch (FormatException)
@@ -450,7 +434,7 @@ namespace travel_gui
         {
             try
             {
-                int ProdID = Convert.ToInt32(txtProductID.Text);
+                int ProdID = Convert.ToInt32(ComProductId.SelectedItem);
                 string ProdName = txtProductName.Text;
                 if (ProdID == null || ProdName == null)
                 {
@@ -478,9 +462,8 @@ namespace travel_gui
 
         private void clear()
         {
-            txtProductID.Text = string.Empty;
+            ComProductId.SelectedItem = "";
             txtProductName.Text = string.Empty;
-            txtProductID.Focus();
         }
 
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
@@ -490,7 +473,27 @@ namespace travel_gui
 
             // loop through products and add ids to drop down
             foreach (Products prod in products)
+            {
                 ComProductId.Items.Add(prod.ProductID.ToString());
+            }
+        }
+
+        private void ComProductId_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int ProductID = Convert.ToInt32(ComProductId.SelectedItem);
+                Products myProduct = ProductsDB.GetProducts(ProductID);
+                txtProductName.Text = myProduct.ProductName;
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Select or type valid Product ID", "Incorrect Input");
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Product Id does not exist.", "Incorrect Input");
+            }
         }
     }
 }
