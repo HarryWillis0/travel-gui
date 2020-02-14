@@ -97,16 +97,13 @@ namespace TravelExpertsData
         }
 
         // Add new products method
-        public static void AddProducts(int ProdID, string ProdName)
+        public static void AddProducts(string ProdName)
         {
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
-                string query = "SET IDENTITY_INSERT products ON " +
-                               "INSERT INTO products (ProductID, ProdName) VALUES (@ProdID, @ProdName) " +
-                               "SET IDENTITY_INSERT products OFF";
+                string query = "INSERT INTO products (ProdName) VALUES (@ProdName)";
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
-                    cmd.Parameters.AddWithValue("@ProdID", ProdID);
                     cmd.Parameters.AddWithValue("@ProdName", ProdName);
                     connection.Open();
                     cmd.ExecuteNonQuery();

@@ -434,19 +434,20 @@ namespace travel_gui
         {
             try
             {
-                int ProdID = Convert.ToInt32(ComProductId.SelectedItem);
+                ComProductId.Enabled = false;
                 string ProdName = txtProductName.Text;
-                if (ProdID == null || ProdName == null)
+                if (ProdName == null)
                 {
                     MessageBox.Show("Null values are not allowed.", "Null Value Error");
                 }
                 else
                 {
-                    ProductsDB.AddProducts(ProdID, ProdName);
+                    ProductsDB.AddProducts(ProdName);
                     ShowProductsInProductsTab();
                     MessageBox.Show("New product succesfully added.", "Add Product");
                     clear();
                 }
+                ComProductId.Enabled = true;
             }
             catch (FormatException)
             {
