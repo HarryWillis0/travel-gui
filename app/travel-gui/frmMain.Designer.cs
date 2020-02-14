@@ -52,6 +52,7 @@
             this.btnAddPkg = new System.Windows.Forms.Button();
             this.btnEditPkg = new System.Windows.Forms.Button();
             this.pkgStartDateTextBox = new System.Windows.Forms.TextBox();
+            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pkgEndDateTextBox = new System.Windows.Forms.TextBox();
             this.btnSkipToFirst = new System.Windows.Forms.Button();
             this.btnSkpToEnd = new System.Windows.Forms.Button();
@@ -65,6 +66,7 @@
             this.tbProds = new System.Windows.Forms.TabPage();
             this.tbSuppliers = new System.Windows.Forms.TabPage();
             this.tbProdSupp = new System.Windows.Forms.TabPage();
+            this.btnRemoveSupplier = new System.Windows.Forms.Button();
             this.gbAddSupplier = new System.Windows.Forms.GroupBox();
             this.btnAddSupplier = new System.Windows.Forms.Button();
             this.lstboxSuppliers = new System.Windows.Forms.ListBox();
@@ -80,8 +82,6 @@
             this.btnLastItem = new System.Windows.Forms.Button();
             this.btnNextItem = new System.Windows.Forms.Button();
             this.btnPreviousItem = new System.Windows.Forms.Button();
-            this.btnRemoveSupplier = new System.Windows.Forms.Button();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
@@ -93,10 +93,10 @@
             this.tbPkgs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).BeginInit();
             this.grpBoxAddProdToPkg.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
             this.tbProdSupp.SuspendLayout();
             this.gbAddSupplier.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // packageIdLabel
@@ -343,6 +343,10 @@
             this.pkgStartDateTextBox.Size = new System.Drawing.Size(256, 20);
             this.pkgStartDateTextBox.TabIndex = 19;
             // 
+            // packageBindingSource
+            // 
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
+            // 
             // pkgEndDateTextBox
             // 
             this.pkgEndDateTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgEndDate", true));
@@ -459,11 +463,15 @@
             // 
             // tbProdSupp
             // 
+            this.tbProdSupp.Controls.Add(this.btnFirstItem);
             this.tbProdSupp.Controls.Add(this.btnRemoveSupplier);
+            this.tbProdSupp.Controls.Add(this.btnLastItem);
             this.tbProdSupp.Controls.Add(this.gbAddSupplier);
             this.tbProdSupp.Controls.Add(this.txtPSProdName);
+            this.tbProdSupp.Controls.Add(this.btnNextItem);
             this.tbProdSupp.Controls.Add(this.txtPSProdID);
             this.tbProdSupp.Controls.Add(this.lblPSProductName);
+            this.tbProdSupp.Controls.Add(this.btnPreviousItem);
             this.tbProdSupp.Controls.Add(this.lblPSProductID);
             this.tbProdSupp.Controls.Add(this.lblPSSuppliers);
             this.tbProdSupp.Controls.Add(this.dataGridViewProdSuppliers);
@@ -474,6 +482,16 @@
             this.tbProdSupp.TabIndex = 2;
             this.tbProdSupp.Text = "Product Suppliers";
             this.tbProdSupp.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoveSupplier
+            // 
+            this.btnRemoveSupplier.Location = new System.Drawing.Point(322, 305);
+            this.btnRemoveSupplier.Name = "btnRemoveSupplier";
+            this.btnRemoveSupplier.Size = new System.Drawing.Size(96, 23);
+            this.btnRemoveSupplier.TabIndex = 2;
+            this.btnRemoveSupplier.Text = "Remove Supplier";
+            this.btnRemoveSupplier.UseVisualStyleBackColor = true;
+            this.btnRemoveSupplier.Click += new System.EventHandler(this.btnRemoveSupplier_Click);
             // 
             // gbAddSupplier
             // 
@@ -586,7 +604,7 @@
             // 
             // btnFirstItem
             // 
-            this.btnFirstItem.Location = new System.Drawing.Point(35, 431);
+            this.btnFirstItem.Location = new System.Drawing.Point(21, 305);
             this.btnFirstItem.Name = "btnFirstItem";
             this.btnFirstItem.Size = new System.Drawing.Size(31, 23);
             this.btnFirstItem.TabIndex = 21;
@@ -596,7 +614,7 @@
             // 
             // btnLastItem
             // 
-            this.btnLastItem.Location = new System.Drawing.Point(198, 431);
+            this.btnLastItem.Location = new System.Drawing.Point(184, 305);
             this.btnLastItem.Name = "btnLastItem";
             this.btnLastItem.Size = new System.Drawing.Size(31, 23);
             this.btnLastItem.TabIndex = 20;
@@ -606,7 +624,7 @@
             // 
             // btnNextItem
             // 
-            this.btnNextItem.Location = new System.Drawing.Point(135, 431);
+            this.btnNextItem.Location = new System.Drawing.Point(121, 305);
             this.btnNextItem.Name = "btnNextItem";
             this.btnNextItem.Size = new System.Drawing.Size(57, 23);
             this.btnNextItem.TabIndex = 19;
@@ -616,27 +634,13 @@
             // 
             // btnPreviousItem
             // 
-            this.btnPreviousItem.Location = new System.Drawing.Point(72, 431);
+            this.btnPreviousItem.Location = new System.Drawing.Point(58, 305);
             this.btnPreviousItem.Name = "btnPreviousItem";
             this.btnPreviousItem.Size = new System.Drawing.Size(57, 23);
             this.btnPreviousItem.TabIndex = 18;
             this.btnPreviousItem.Text = "Previous";
             this.btnPreviousItem.UseVisualStyleBackColor = true;
             this.btnPreviousItem.Click += new System.EventHandler(this.btnPreviousItem_Click);
-            // 
-            // btnRemoveSupplier
-            // 
-            this.btnRemoveSupplier.Location = new System.Drawing.Point(322, 305);
-            this.btnRemoveSupplier.Name = "btnRemoveSupplier";
-            this.btnRemoveSupplier.Size = new System.Drawing.Size(96, 23);
-            this.btnRemoveSupplier.TabIndex = 2;
-            this.btnRemoveSupplier.Text = "Remove Supplier";
-            this.btnRemoveSupplier.UseVisualStyleBackColor = true;
-            this.btnRemoveSupplier.Click += new System.EventHandler(this.btnRemoveSupplier_Click);
-            // 
-            // packageBindingSource
-            // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // frmMain
             // 
@@ -645,12 +649,8 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(922, 473);
-            this.Controls.Add(this.btnFirstItem);
-            this.Controls.Add(this.btnLastItem);
             this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.btnNextItem);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.btnPreviousItem);
             this.Controls.Add(this.mainTabControl);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -662,11 +662,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).EndInit();
             this.grpBoxAddProdToPkg.ResumeLayout(false);
             this.grpBoxAddProdToPkg.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
             this.tbProdSupp.ResumeLayout(false);
             this.tbProdSupp.PerformLayout();
             this.gbAddSupplier.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

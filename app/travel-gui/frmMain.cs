@@ -428,6 +428,7 @@ namespace travel_gui
                         ShowPkgProducts(pkgProducts, pkgProdSupps);
                         ShowAllProducts();
                         cmboBoxSupsOfProd.Text = "";
+                        cmboBoxProducts.Text = "";
                         cmboBoxSupsOfProd.Items.Clear();
                         MessageBox.Show("Added product successfully.", "Success");
                     }
