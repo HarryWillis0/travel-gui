@@ -360,6 +360,7 @@ namespace travel_gui
             // ensure there was a selection
             if (cmboBoxProducts.SelectedIndex > -1)
             {
+                cmboBoxSupsOfProd.Text = "";
                 try
                 {
                     // get selected index 
@@ -425,7 +426,9 @@ namespace travel_gui
                         // access products and suppliers associated with current package
                         PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);
                         ShowPkgProducts(pkgProducts, pkgProdSupps);
-
+                        ShowAllProducts();
+                        cmboBoxSupsOfProd.Text = "";
+                        cmboBoxSupsOfProd.Items.Clear();
                         MessageBox.Show("Added product successfully.", "Success");
                     }
                     else
