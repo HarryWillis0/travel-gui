@@ -447,7 +447,6 @@ namespace travel_gui
                     LoadComboBox();
                     MessageBox.Show("New product succesfully added.", "Add Product");
                     clear();
-                    
                 }
                 ComProductId.Enabled = true;
 
