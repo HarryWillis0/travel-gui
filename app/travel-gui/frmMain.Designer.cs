@@ -487,11 +487,11 @@
             // ViewProducts
             // 
             this.ViewProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ViewProducts.Location = new System.Drawing.Point(126, 218);
+            this.ViewProducts.Location = new System.Drawing.Point(95, 218);
             this.ViewProducts.Name = "ViewProducts";
             this.ViewProducts.RowHeadersWidth = 51;
             this.ViewProducts.RowTemplate.Height = 24;
-            this.ViewProducts.Size = new System.Drawing.Size(551, 182);
+            this.ViewProducts.Size = new System.Drawing.Size(510, 182);
             this.ViewProducts.TabIndex = 7;
             // 
             // btnAddProducts
@@ -526,9 +526,9 @@
             // lblProductName
             // 
             this.lblProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProductName.Location = new System.Drawing.Point(122, 118);
+            this.lblProductName.Location = new System.Drawing.Point(87, 118);
             this.lblProductName.Name = "lblProductName";
-            this.lblProductName.Size = new System.Drawing.Size(159, 40);
+            this.lblProductName.Size = new System.Drawing.Size(194, 40);
             this.lblProductName.TabIndex = 1;
             this.lblProductName.Text = "Product Name:";
             this.lblProductName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -536,9 +536,9 @@
             // lblProductID
             // 
             this.lblProductID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProductID.Location = new System.Drawing.Point(118, 75);
+            this.lblProductID.Location = new System.Drawing.Point(91, 75);
             this.lblProductID.Name = "lblProductID";
-            this.lblProductID.Size = new System.Drawing.Size(130, 23);
+            this.lblProductID.Size = new System.Drawing.Size(157, 23);
             this.lblProductID.TabIndex = 0;
             this.lblProductID.Text = "Product ID:";
             this.lblProductID.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

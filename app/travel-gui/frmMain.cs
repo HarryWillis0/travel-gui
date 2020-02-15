@@ -471,7 +471,6 @@ namespace travel_gui
 
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
-           
             LoadComboBox();
         }
 
