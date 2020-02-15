@@ -63,6 +63,7 @@ namespace travel_gui
                     loadMainFormData();
                     break;
                 case 1: // Products Tab
+                    loadFirstProduct();
                     break;
                 case 2: // Suppliers Tab
                     loadSupplierTab();
@@ -71,6 +72,11 @@ namespace travel_gui
                     loadProductSupplierData();
                     break;
             }
+        }
+
+        private void loadFirstProduct()
+        {
+            ComProductId.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -851,6 +857,21 @@ namespace travel_gui
             suppliersDetails = SuppliersDB.GetSuppliers();
             supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
             supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+        }
+
+        // highlight row in grid view occording to index in combo box
+        private void ComProductId_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = ComProductId.SelectedIndex;
+
+            // set selected rows to false
+            /*foreach (DataGridViewRow row in ViewProducts.SelectedRows) 
+            {
+                row.Selected = false;
+            }*/
+
+            ViewProducts.ClearSelection();
+            ViewProducts.Rows[index].Selected = true;
         }
     }
 }
