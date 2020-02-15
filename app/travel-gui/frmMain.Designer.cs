@@ -548,7 +548,7 @@
             // 
             // lblProductName
             // 
-            this.lblProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProductName.Location = new System.Drawing.Point(65, 96);
             this.lblProductName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProductName.Name = "lblProductName";
@@ -559,7 +559,7 @@
             // 
             // lblProductID
             // 
-            this.lblProductID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProductID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProductID.Location = new System.Drawing.Point(68, 61);
             this.lblProductID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProductID.Name = "lblProductID";
@@ -752,7 +752,7 @@
             // 
             // txtPSProdName
             // 
-            this.txtPSProdName.Location = new System.Drawing.Point(276, 13);
+            this.txtPSProdName.Location = new System.Drawing.Point(276, 16);
             this.txtPSProdName.Name = "txtPSProdName";
             this.txtPSProdName.ReadOnly = true;
             this.txtPSProdName.Size = new System.Drawing.Size(142, 20);
@@ -770,7 +770,7 @@
             // 
             // txtPSProdID
             // 
-            this.txtPSProdID.Location = new System.Drawing.Point(95, 13);
+            this.txtPSProdID.Location = new System.Drawing.Point(95, 16);
             this.txtPSProdID.Name = "txtPSProdID";
             this.txtPSProdID.ReadOnly = true;
             this.txtPSProdID.Size = new System.Drawing.Size(61, 20);
@@ -779,10 +779,10 @@
             // lblPSProductName
             // 
             this.lblPSProductName.AutoSize = true;
-            this.lblPSProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPSProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPSProductName.Location = new System.Drawing.Point(183, 17);
             this.lblPSProductName.Name = "lblPSProductName";
-            this.lblPSProductName.Size = new System.Drawing.Size(97, 16);
+            this.lblPSProductName.Size = new System.Drawing.Size(78, 13);
             this.lblPSProductName.TabIndex = 4;
             this.lblPSProductName.Text = "Product Name:";
             // 
@@ -799,20 +799,20 @@
             // lblPSProductID
             // 
             this.lblPSProductID.AutoSize = true;
-            this.lblPSProductID.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPSProductID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPSProductID.Location = new System.Drawing.Point(16, 17);
             this.lblPSProductID.Name = "lblPSProductID";
-            this.lblPSProductID.Size = new System.Drawing.Size(73, 16);
+            this.lblPSProductID.Size = new System.Drawing.Size(61, 13);
             this.lblPSProductID.TabIndex = 3;
             this.lblPSProductID.Text = "Product ID:";
             // 
             // lblPSSuppliers
             // 
             this.lblPSSuppliers.AutoSize = true;
-            this.lblPSSuppliers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPSSuppliers.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPSSuppliers.Location = new System.Drawing.Point(16, 55);
             this.lblPSSuppliers.Name = "lblPSSuppliers";
-            this.lblPSSuppliers.Size = new System.Drawing.Size(65, 16);
+            this.lblPSSuppliers.Size = new System.Drawing.Size(50, 13);
             this.lblPSSuppliers.TabIndex = 1;
             this.lblPSSuppliers.Text = "Suppliers";
             // 
