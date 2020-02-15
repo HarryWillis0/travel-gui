@@ -51,7 +51,7 @@
             this.btnAddPkg = new System.Windows.Forms.Button();
             this.btnEditPkg = new System.Windows.Forms.Button();
             this.pkgStartDateTextBox = new System.Windows.Forms.TextBox();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            //this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pkgEndDateTextBox = new System.Windows.Forms.TextBox();
             this.btnSkipToFirst = new System.Windows.Forms.Button();
             this.btnSkpToEnd = new System.Windows.Forms.Button();
@@ -103,7 +103,7 @@
             this.tbProds.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ViewProducts)).BeginInit();
 
-            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
             this.tbProdSupp.SuspendLayout();
             this.gbAddSupplier.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).BeginInit();
@@ -406,7 +406,7 @@
             // 
             // packageBindingSource
             // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
+            //this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // pkgEndDateTextBox
             // 
