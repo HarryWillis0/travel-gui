@@ -50,9 +50,9 @@ namespace travel_gui
 
 
         // Events based on tab selected.
-        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (mainTabControl.SelectedIndex)
+            switch (tabControl1.SelectedIndex)
             {
                 case 0: // Packages Tab
                     loadMainFormData();
