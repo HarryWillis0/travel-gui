@@ -496,7 +496,7 @@
             // 
             this.ComProductId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ComProductId.FormattingEnabled = true;
-            this.ComProductId.Location = new System.Drawing.Point(130, 31);
+            this.ComProductId.Location = new System.Drawing.Point(100, 30);
             this.ComProductId.Margin = new System.Windows.Forms.Padding(2);
             this.ComProductId.Name = "ComProductId";
             this.ComProductId.Size = new System.Drawing.Size(175, 21);
@@ -544,7 +544,7 @@
             // txtProductName
             // 
             this.txtProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtProductName.Location = new System.Drawing.Point(130, 69);
+            this.txtProductName.Location = new System.Drawing.Point(100, 62);
             this.txtProductName.Margin = new System.Windows.Forms.Padding(2);
             this.txtProductName.Name = "txtProductName";
             this.txtProductName.Size = new System.Drawing.Size(175, 20);
@@ -553,22 +553,24 @@
             // 
             // lblProductName
             // 
+            this.lblProductName.AutoSize = true;
             this.lblProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProductName.Location = new System.Drawing.Point(18, 65);
             this.lblProductName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProductName.Name = "lblProductName";
-            this.lblProductName.Size = new System.Drawing.Size(130, 32);
+            this.lblProductName.Size = new System.Drawing.Size(78, 13);
             this.lblProductName.TabIndex = 1;
             this.lblProductName.Text = "Product Name:";
             this.lblProductName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblProductID
             // 
+            this.lblProductID.AutoSize = true;
             this.lblProductID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProductID.Location = new System.Drawing.Point(18, 33);
             this.lblProductID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProductID.Name = "lblProductID";
-            this.lblProductID.Size = new System.Drawing.Size(118, 19);
+            this.lblProductID.Size = new System.Drawing.Size(61, 13);
             this.lblProductID.TabIndex = 0;
             this.lblProductID.Text = "Product ID:";
             this.lblProductID.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
