@@ -15,6 +15,8 @@ namespace travel_gui
 {
     public partial class frmMain : Form
     {
+        int supplierCount = 0;
+
         // packages info
         List<Package> packages; // list of packages
         int pkgPos = 0; // current position in packages
@@ -36,6 +38,9 @@ namespace travel_gui
 
         // List of suppliers that are not suppliers of selected product
         List<Supplier> filteredSuppliers;
+
+        // list of suppliers
+        List<Supplier> suppliersDetails;
 
         public frmMain()
         {
@@ -60,11 +65,32 @@ namespace travel_gui
                 case 1: // Products Tab
                     break;
                 case 2: // Suppliers Tab
+                    loadSupplierTab();
                     break;
                 case 3: // PRoduct Suppliers Tab
                     loadProductSupplierData();
                     break;
             }
+        }
+
+        /// <summary>
+        /// Load supplier tab data
+        /// </summary> Raymond
+
+        private void loadSupplierTab()
+        {
+            suppliersDetails = SuppliersDB.GetSuppliers();
+            supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+            supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+        }
+
+        private string ProcessNullSupplierName(string supName)
+        {
+            // check for null
+            if (suppliersDetails[supplierCount].SupName == null)
+                return "";
+            else
+                return suppliersDetails[supplierCount].SupName.ToString();
         }
 
         // Load data for main form (first tab - Packages).
@@ -726,6 +752,101 @@ namespace travel_gui
                 MessageBox.Show("Unable to Add Supplier.\nThe Product Supplier was either removed or updated.\n\n" +
                                         ex.Message, "Unexpected Database Error");
             }
+        }
+
+        /*Code that takes user to the previous supplier detail - Raymond */
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            if (supplierCount >= 0)
+            {
+                if (supplierCount == 0)
+                {
+                    supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+                    supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+                }
+                else
+                {
+                    supplierId.Text = suppliersDetails[--supplierCount].SupplierId.ToString();
+                    supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+                }
+
+            }
+        }
+
+        //Code that takes user to next supplier details - Raymond
+        private void bbtnNexxt_Click(object sender, EventArgs e)
+        {
+            if (supplierCount <= suppliersDetails.Count - 1)
+            {
+                if (supplierCount == suppliersDetails.Count - 1)
+                {
+                    supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+                    supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+                }
+                else
+                {
+                    supplierId.Text = suppliersDetails[++supplierCount].SupplierId.ToString();
+                    supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+                }
+            }
+        }
+
+        //Code written by Raymond Edeamrere 
+        //Code that takes user to the last supplier ID on the table
+        private void btnGoToEnd_Click(object sender, EventArgs e)
+        {
+            supplierCount = suppliersDetails.Count - 1;
+            supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+            supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+        }
+
+        //Code that takes user back to the first supplier ID - Raymond
+        private void btnGoToStart_Click(object sender, EventArgs e)
+        {
+            supplierCount = 0;
+            supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+            supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+        }
+
+        //TypeCode written by Raymond Edeamrere 
+        //Code that takes user to the last supplier ID on the table
+        private void btnGoToEndSupplier_Click(object sender, EventArgs e)
+        {
+            supplierCount = suppliersDetails.Count - 1;
+            supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+            supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+        }
+
+        //Code that takes user back to the first supplier ID - Raymond
+        private void btnGoToStartSupplier_Click(object sender, EventArgs e)
+        {
+            supplierCount = 0;
+            supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+            supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+        }
+
+        //Adding a new supplier - Raymond
+        private void btnNew_Click(object sender, EventArgs e)
+        {
+            frmAddSupplier addSupplier = new frmAddSupplier();
+
+            DialogResult result = addSupplier.ShowDialog();
+
+            suppliersDetails = SuppliersDB.GetSuppliers();
+            supplierCount = suppliersDetails.Count - 1;
+            supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+            supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
+        }
+
+        // Edit existing supplier - Raymond
+        private void btnEdit_Click_1(object sender, EventArgs e)
+        {
+            frmEditSuppliers editSuppliers = new frmEditSuppliers(suppliersDetails[supplierCount]);
+            DialogResult result = editSuppliers.ShowDialog();
+
+            suppliersDetails = SuppliersDB.GetSuppliers();
+            supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
+            supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
         }
     }
 }
