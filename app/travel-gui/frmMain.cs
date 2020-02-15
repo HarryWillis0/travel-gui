@@ -188,7 +188,11 @@ namespace travel_gui
             // same suppliers to product's supplier list.
             foreach (Supplier sup in filteredSuppliers)
             {
-                lstboxSuppliers.Items.Add(sup.SupName);
+                // check if supplier name is null
+                if (sup.SupName == null)
+                    lstboxSuppliers.Items.Add("");
+                else
+                    lstboxSuppliers.Items.Add(sup.SupName);
             }
         }
 
@@ -741,7 +745,7 @@ namespace travel_gui
                         )
                 {
                     // Notify user of DB violation
-                    MessageBox.Show("Unable to Add Supplier.\n" +
+                    MessageBox.Show("Unable to remove Supplier.\n" +
                         "The Product Supplier is currently part of a booking or package.\n\n", 
                         "Supplier In Use");
                 }
@@ -749,7 +753,7 @@ namespace travel_gui
             catch (Exception ex)
             {
                 // Notify user of optimistic concurrency error.
-                MessageBox.Show("Unable to Add Supplier.\nThe Product Supplier was either removed or updated.\n\n" +
+                MessageBox.Show("Unable to remove Supplier.\nThe Product Supplier was either removed or updated.\n\n" +
                                         ex.Message, "Unexpected Database Error");
             }
         }
