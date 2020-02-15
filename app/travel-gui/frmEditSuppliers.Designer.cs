@@ -38,9 +38,29 @@
             supNameLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
+            // supplierIdLabel
+            // 
+            supplierIdLabel.AutoSize = true;
+            supplierIdLabel.Location = new System.Drawing.Point(38, 60);
+            supplierIdLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            supplierIdLabel.Name = "supplierIdLabel";
+            supplierIdLabel.Size = new System.Drawing.Size(60, 13);
+            supplierIdLabel.TabIndex = 24;
+            supplierIdLabel.Text = "Supplier Id:";
+            // 
+            // supNameLabel
+            // 
+            supNameLabel.AutoSize = true;
+            supNameLabel.Location = new System.Drawing.Point(38, 84);
+            supNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            supNameLabel.Name = "supNameLabel";
+            supNameLabel.Size = new System.Drawing.Size(60, 13);
+            supNameLabel.TabIndex = 25;
+            supNameLabel.Text = "Sup Name:";
+            // 
             // supplierName
             // 
-            this.supplierName.Location = new System.Drawing.Point(148, 83);
+            this.supplierName.Location = new System.Drawing.Point(102, 81);
             this.supplierName.Margin = new System.Windows.Forms.Padding(2);
             this.supplierName.Name = "supplierName";
             this.supplierName.Size = new System.Drawing.Size(224, 20);
@@ -48,7 +68,7 @@
             // 
             // supplierId
             // 
-            this.supplierId.Location = new System.Drawing.Point(148, 61);
+            this.supplierId.Location = new System.Drawing.Point(102, 57);
             this.supplierId.Margin = new System.Windows.Forms.Padding(2);
             this.supplierId.Name = "supplierId";
             this.supplierId.Size = new System.Drawing.Size(92, 20);
@@ -56,7 +76,7 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(235, 131);
+            this.btnUpdate.Location = new System.Drawing.Point(177, 123);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(2);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(66, 25);
@@ -67,7 +87,7 @@
             // 
             // Cancelbtn
             // 
-            this.Cancelbtn.Location = new System.Drawing.Point(148, 131);
+            this.Cancelbtn.Location = new System.Drawing.Point(90, 123);
             this.Cancelbtn.Margin = new System.Windows.Forms.Padding(2);
             this.Cancelbtn.Name = "Cancelbtn";
             this.Cancelbtn.Size = new System.Drawing.Size(74, 25);
@@ -76,31 +96,11 @@
             this.Cancelbtn.UseVisualStyleBackColor = true;
             this.Cancelbtn.Click += new System.EventHandler(this.Cancelbtn_Click);
             // 
-            // supplierIdLabel
-            // 
-            supplierIdLabel.AutoSize = true;
-            supplierIdLabel.Location = new System.Drawing.Point(84, 63);
-            supplierIdLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            supplierIdLabel.Name = "supplierIdLabel";
-            supplierIdLabel.Size = new System.Drawing.Size(60, 13);
-            supplierIdLabel.TabIndex = 24;
-            supplierIdLabel.Text = "Supplier Id:";
-            // 
-            // supNameLabel
-            // 
-            supNameLabel.AutoSize = true;
-            supNameLabel.Location = new System.Drawing.Point(84, 86);
-            supNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            supNameLabel.Name = "supNameLabel";
-            supNameLabel.Size = new System.Drawing.Size(60, 13);
-            supNameLabel.TabIndex = 25;
-            supNameLabel.Text = "Sup Name:";
-            // 
             // frmEditSuppliers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 269);
+            this.ClientSize = new System.Drawing.Size(384, 213);
             this.Controls.Add(this.supplierName);
             this.Controls.Add(this.supplierId);
             this.Controls.Add(this.btnUpdate);
@@ -108,6 +108,7 @@
             this.Controls.Add(supplierIdLabel);
             this.Controls.Add(supNameLabel);
             this.Name = "frmEditSuppliers";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Supplier";
             this.ResumeLayout(false);
             this.PerformLayout();

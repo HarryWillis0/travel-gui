@@ -83,6 +83,9 @@
     <EmbeddedResource Include="frmAddPkg.resx">
       <DependentUpon>frmAddPkg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmAddSupplier.resx">
+      <DependentUpon>frmAddSupplier.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmEditPkg.resx">
       <DependentUpon>frmEditPkg.cs</DependentUpon>
     </EmbeddedResource>
