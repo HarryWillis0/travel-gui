@@ -52,5 +52,47 @@ namespace TravelExpertsData
             } // close and recycle conn
             return suppliers;
         }
+
+        /// <summary>
+        /// Get all available suppliers from supplier table in DB.
+        /// </summary>
+        /// <returns>List of supplier objects</returns>
+        public static List<Supplier> GetAllSuppliers()
+        {
+            List<Supplier> Suppliers = new List<Supplier>();
+            Supplier sup;
+
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                // query to get product supplier id
+                string query = "SELECT SupplierID, SupName " +
+                               "FROM [Suppliers] " +
+                               "ORDER BY SupName";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        // run query
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read()) // found result
+                            {
+                                sup = new Supplier();
+                                sup.SupName = reader["SupName"].ToString();
+                                sup.SupplierId = Convert.ToInt32(reader["SupplierID"]);
+                                Suppliers.Add(sup);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            return Suppliers;
+        }
     }
 }
