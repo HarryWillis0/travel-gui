@@ -9,6 +9,157 @@ namespace TravelExpertsData
 {
     public static class SuppliersDB
     {
+        ///Written by Raymond Edeamrere
+        public static bool EditSupplier(Supplier newSupplier)
+        {
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                SqlTransaction addNewPkgTran;
+
+                int rowsAffected;
+
+                string insert = "Update Suppliers set SupName = @SupName" +
+                                " where SupplierId = @SupplierId";
+
+                // start transaction
+                addNewPkgTran = connection.BeginTransaction();
+
+                // set up cmd properties
+                cmd.Connection = connection;
+                cmd.Transaction = addNewPkgTran;
+                cmd.CommandText = insert;
+
+                // add non-nullable parameters
+                cmd.Parameters.AddWithValue("@SupplierId", newSupplier.SupplierId);
+                cmd.Parameters.AddWithValue("@SupName", newSupplier.SupName);
+
+
+                try
+                {
+                    // run query
+                    rowsAffected = cmd.ExecuteNonQuery();
+
+                    // insert failed
+                    if (rowsAffected != 1)
+                    {
+                        addNewPkgTran.Rollback();
+                        return false;
+                    }
+
+                    // commit transaction
+                    addNewPkgTran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        ///Written by Raymond Edeamrere
+        public static bool AddSupplier(Supplier newSupplier)
+        {
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                SqlTransaction addNewPkgTran;
+
+                int rowsAffected;
+
+                string insert = "INSERT INTO Suppliers (SupplierId, SupName )" +
+                                "VALUES (@SupplierId, @SupName)";
+
+                // start transaction
+                addNewPkgTran = connection.BeginTransaction();
+
+                // set up cmd properties
+                cmd.Connection = connection;
+                cmd.Transaction = addNewPkgTran;
+                cmd.CommandText = insert;
+
+                // add non-nullable parameters
+                cmd.Parameters.AddWithValue("@SupplierId", newSupplier.SupplierId);
+
+                // nullable parameters
+                if (string.IsNullOrEmpty(newSupplier.SupName))
+                    cmd.Parameters.AddWithValue("@SupName", DBNull.Value);
+                else
+                    cmd.Parameters.AddWithValue("@SupName", newSupplier.SupName);
+
+                try
+                {
+                    // run query
+                    rowsAffected = cmd.ExecuteNonQuery();
+
+                    // insert failed
+                    if (rowsAffected != 1)
+                    {
+                        addNewPkgTran.Rollback();
+                        return false;
+                    }
+
+                    // commit transaction
+                    addNewPkgTran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        ///Written by Raymond Edeamrere
+        public static List<Supplier> GetSuppliers()
+        {
+            List<Supplier> suppliers = new List<Supplier>();
+            Supplier curr;
+
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                // query to select all from suppliers table
+                string query = "SELECT SupplierId, SupName " +
+                               "FROM Suppliers ";
+                //"ORDER BY SupplierId";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    try
+                    {
+                        connection.Open();
+
+                        // run query
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            // process each supplier and add to list
+                            curr = new Supplier();
+                            curr.SupplierId = (int)reader["SupplierId"];
+
+                            // check for null on nullable columns
+                            int col = reader.GetOrdinal("SupName");
+                            if (reader.IsDBNull(col))
+                                curr.SupName = null;
+                            else
+                                curr.SupName = (string)reader["SupName"];
+
+                            suppliers.Add(curr);
+                        }
+                    }
+                    catch (Exception ex) // unanticipated errors
+                    {
+                        throw ex;
+                    }
+                }
+            }
+
+            return suppliers;
+        }
+
         /// <summary>
         /// find suppliers of certain product
         /// </summary>
@@ -44,7 +195,12 @@ namespace TravelExpertsData
                         {
                             curr = new Supplier();
                             curr.SupplierId = (int)reader["SupplierId"];
-                            curr.SupName = (string)reader["SupName"];
+                            // check for null on nullable columns
+                            int col = reader.GetOrdinal("SupName");
+                            if (reader.IsDBNull(col))
+                                curr.SupName = null;
+                            else
+                                curr.SupName = (string)reader["SupName"];
                             suppliers.Add(curr);
                         }
                     } // recycle reader
@@ -80,8 +236,14 @@ namespace TravelExpertsData
                             while (reader.Read()) // found result
                             {
                                 sup = new Supplier();
-                                sup.SupName = reader["SupName"].ToString();
+                                
                                 sup.SupplierId = Convert.ToInt32(reader["SupplierID"]);
+                                // check for null on nullable columns
+                                int col = reader.GetOrdinal("SupName");
+                                if (reader.IsDBNull(col))
+                                    sup.SupName = null;
+                                else
+                                    sup.SupName = (string)reader["SupName"];
                                 Suppliers.Add(sup);
                             }
                         }
