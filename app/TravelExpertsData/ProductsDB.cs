@@ -54,6 +54,8 @@ namespace TravelExpertsData
             return products;
         }
 
+        /// Get products
+        /// Rohit
         public static Products GetProducts(int ProductID)
         {
             Products product = null;
@@ -97,6 +99,7 @@ namespace TravelExpertsData
         }
 
         // Add new products method
+        // Rohit
         public static void AddProducts(string ProdName)
         {
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
