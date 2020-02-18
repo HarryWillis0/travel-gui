@@ -27,9 +27,8 @@ namespace travel_gui
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             // need to validate!
-            if (supplierId.Text == "")
-                MessageBox.Show("Supplier ID is required.", "Missing field.");
-            else
+            if (!string.IsNullOrEmpty(supplierId.Text) &&
+               Int32.TryParse(supplierId.Text, out int result))
             {
                 Supplier supplier = new Supplier()
                 {
@@ -54,6 +53,9 @@ namespace travel_gui
                     MessageBox.Show("Error while adding supplier.\n\n" + ex.Message,
                         ex.GetType().ToString());
                 }
+            }else
+            {
+                MessageBox.Show("Please enter a number for supplier ID", "Missing Data");
             }
         }
     }

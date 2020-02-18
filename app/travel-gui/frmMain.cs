@@ -82,9 +82,9 @@ namespace travel_gui
         /// <summary>
         /// Load supplier tab data
         /// </summary> Raymond
-
         private void loadSupplierTab()
         {
+            supplierCount = 0;
             suppliersDetails = SuppliersDB.GetSuppliers();
             supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
             supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
@@ -879,7 +879,9 @@ namespace travel_gui
             DialogResult result = addSupplier.ShowDialog();
 
             suppliersDetails = SuppliersDB.GetSuppliers();
-            supplierCount = suppliersDetails.Count - 1;
+            if (result == DialogResult.OK)
+                supplierCount = suppliersDetails.Count - 1;
+
             supplierId.Text = suppliersDetails[supplierCount].SupplierId.ToString();
             supplierName.Text = ProcessNullSupplierName(suppliersDetails[supplierCount].SupName);
         }

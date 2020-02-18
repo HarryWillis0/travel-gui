@@ -197,9 +197,9 @@
             supNameLabel.Location = new System.Drawing.Point(18, 65);
             supNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             supNameLabel.Name = "supNameLabel";
-            supNameLabel.Size = new System.Drawing.Size(60, 13);
+            supNameLabel.Size = new System.Drawing.Size(79, 13);
             supNameLabel.TabIndex = 23;
-            supNameLabel.Text = "Sup Name:";
+            supNameLabel.Text = "Supplier Name:";
             // 
             // tabControl1
             // 
@@ -499,7 +499,7 @@
             this.ComProductId.Location = new System.Drawing.Point(100, 30);
             this.ComProductId.Margin = new System.Windows.Forms.Padding(2);
             this.ComProductId.Name = "ComProductId";
-            this.ComProductId.Size = new System.Drawing.Size(175, 21);
+            this.ComProductId.Size = new System.Drawing.Size(37, 21);
             this.ComProductId.TabIndex = 8;
             this.ComProductId.SelectedIndexChanged += new System.EventHandler(this.ComProductId_SelectedIndexChanged);
             this.ComProductId.SelectedValueChanged += new System.EventHandler(this.ComProductId_SelectedValueChanged);
@@ -596,17 +596,19 @@
             // 
             // supplierName
             // 
-            this.supplierName.Location = new System.Drawing.Point(82, 62);
+            this.supplierName.Location = new System.Drawing.Point(101, 62);
             this.supplierName.Margin = new System.Windows.Forms.Padding(2);
             this.supplierName.Name = "supplierName";
+            this.supplierName.ReadOnly = true;
             this.supplierName.Size = new System.Drawing.Size(224, 20);
             this.supplierName.TabIndex = 25;
             // 
             // supplierId
             // 
-            this.supplierId.Location = new System.Drawing.Point(82, 30);
+            this.supplierId.Location = new System.Drawing.Point(101, 30);
             this.supplierId.Margin = new System.Windows.Forms.Padding(2);
             this.supplierId.Name = "supplierId";
+            this.supplierId.ReadOnly = true;
             this.supplierId.Size = new System.Drawing.Size(92, 20);
             this.supplierId.TabIndex = 24;
             // 

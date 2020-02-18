@@ -38,9 +38,29 @@
             supNameLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
+            // supplierIdLabel
+            // 
+            supplierIdLabel.AutoSize = true;
+            supplierIdLabel.Location = new System.Drawing.Point(38, 60);
+            supplierIdLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            supplierIdLabel.Name = "supplierIdLabel";
+            supplierIdLabel.Size = new System.Drawing.Size(60, 13);
+            supplierIdLabel.TabIndex = 18;
+            supplierIdLabel.Text = "Supplier Id:";
+            // 
+            // supNameLabel
+            // 
+            supNameLabel.AutoSize = true;
+            supNameLabel.Location = new System.Drawing.Point(38, 82);
+            supNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            supNameLabel.Name = "supNameLabel";
+            supNameLabel.Size = new System.Drawing.Size(79, 13);
+            supNameLabel.TabIndex = 19;
+            supNameLabel.Text = "Supplier Name:";
+            // 
             // supplierName
             // 
-            this.supplierName.Location = new System.Drawing.Point(101, 80);
+            this.supplierName.Location = new System.Drawing.Point(121, 79);
             this.supplierName.Margin = new System.Windows.Forms.Padding(2);
             this.supplierName.Name = "supplierName";
             this.supplierName.Size = new System.Drawing.Size(224, 20);
@@ -48,7 +68,7 @@
             // 
             // supplierId
             // 
-            this.supplierId.Location = new System.Drawing.Point(101, 57);
+            this.supplierId.Location = new System.Drawing.Point(121, 57);
             this.supplierId.Margin = new System.Windows.Forms.Padding(2);
             this.supplierId.Name = "supplierId";
             this.supplierId.Size = new System.Drawing.Size(92, 20);
@@ -75,26 +95,6 @@
             this.Cancelbtn.Text = "Cancel";
             this.Cancelbtn.UseVisualStyleBackColor = true;
             this.Cancelbtn.Click += new System.EventHandler(this.Cancelbtn_Click);
-            // 
-            // supplierIdLabel
-            // 
-            supplierIdLabel.AutoSize = true;
-            supplierIdLabel.Location = new System.Drawing.Point(38, 60);
-            supplierIdLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            supplierIdLabel.Name = "supplierIdLabel";
-            supplierIdLabel.Size = new System.Drawing.Size(60, 13);
-            supplierIdLabel.TabIndex = 18;
-            supplierIdLabel.Text = "Supplier Id:";
-            // 
-            // supNameLabel
-            // 
-            supNameLabel.AutoSize = true;
-            supNameLabel.Location = new System.Drawing.Point(38, 82);
-            supNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            supNameLabel.Name = "supNameLabel";
-            supNameLabel.Size = new System.Drawing.Size(60, 13);
-            supNameLabel.TabIndex = 19;
-            supNameLabel.Text = "Sup Name:";
             // 
             // frmAddSupplier
             // 
