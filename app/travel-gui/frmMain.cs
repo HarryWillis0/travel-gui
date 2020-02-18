@@ -547,9 +547,9 @@ namespace travel_gui
             {
                 int ProdID = Convert.ToInt32(ComProductId.SelectedItem);
                 string ProdName = txtProductName.Text;
-                if (ProdName == "") // validation for null product name
+                if (string.IsNullOrEmpty(ProdName) ||  ComProductId.SelectedItem == null) // validation for null product name
                 {
-                    MessageBox.Show("Null values not allowed", "Incorrect Value");
+                    MessageBox.Show("Please enter product name and select product ID.", "Incorrect Value");
                 }
                 else // if the product name is not null then use the modify method form database access class to modify the product
                 {
