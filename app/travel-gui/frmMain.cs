@@ -535,79 +535,109 @@ namespace travel_gui
             this.frmMain_Load(sender, e);
         }
 
+        /// <summary>
+        /// Modify the current selected product in the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// @Author - Rohit
         private void btnModifyProducts_Click(object sender, EventArgs e)
         {
             try
             {
                 int ProdID = Convert.ToInt32(ComProductId.SelectedItem);
                 string ProdName = txtProductName.Text;
-                if (ProdName == "")
+                if (ProdName == "") // validation for null product name
                 {
                     MessageBox.Show("Null values not allowed", "Incorrect Value");
                 }
-                else
+                else // if the product name is not null then use the modify method form database access class to modify the product
                 {
                     ProductsDB.ModifyProducts(ProdName, ProdID);
-                    MessageBox.Show("Product name updated successfully", "Update");
-                    clear();
-                    ShowProductsInProductsTab();
+                    MessageBox.Show("Product name updated successfully", "Update"); // message pop up
+                    clear(); // clears the fields after modifying
+                    ShowProductsInProductsTab(); // updates the datagridview after modifying the products
                 }
             }
-            catch (FormatException)
+            catch (FormatException) // catches any format issues and null value exceptions
             {
-                MessageBox.Show("Null values are not allowed", "Null Value Exception");
+                MessageBox.Show("Null values are not allowed", "Null Value Exception"); // message pop up
             }
         }
 
+        /// <summary>
+        /// Add button adds new products to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// @Author - Rohit
         private void btnAddProducts_Click(object sender, EventArgs e)
         {
             try
             {
-                ComProductId.Enabled = false;
+                ComProductId.Enabled = false; // disables the product id textbox (not required while adding products)
                 string ProdName = txtProductName.Text;
-                if (ProdName == null)
+                if (ProdName == null) // null value validation on product name
                 {
-                    MessageBox.Show("Null values are not allowed.", "Null Value Error");
+                    MessageBox.Show("Null values are not allowed.", "Null Value Error"); // message box pop uo
                 }
-                else
+                else // if product name is not null add the new product using Add product method
                 {
                     ProductsDB.AddProducts(ProdName);
-                    ShowProductsInProductsTab();
-                    LoadComboBox();
-                    MessageBox.Show("New product succesfully added.", "Add Product");
-                    clear();
+                    ShowProductsInProductsTab(); // Updates data grid view
+                    LoadComboBox(); // updates combo box to view the added product immediately
+                    MessageBox.Show("New product succesfully added.", "Add Product"); // message box pop up
+                    clear(); // clears the fields after adding new product
                 }
-                ComProductId.Enabled = true;
+                ComProductId.Enabled = true; // After the product is added, enable the product id textbox
 
             }
-            catch (FormatException)
+            catch (FormatException) // catches any format issues and null value exceptions
             {
                 MessageBox.Show("Null values are not allowed, Type correct information.", "Null Value / Incorrect Format");
             }
         }
 
+        /// <summary>
+        /// Update the data grid view after modifying or adding a new product
+        /// </summary>
+        /// @Author - Rohit
         private void ShowProductsInProductsTab()
         {
             List<Products> dispProducts = ProductsDB.GetAllProducts();
             ViewProducts.DataSource = dispProducts;
         }
 
+        /// <summary>
+        /// Clears the fields
+        /// </summary>
+        /// @Author - Rohit
         private void clear()
         {
             ComProductId.Text = "";
             txtProductName.Text = string.Empty;
         }
 
+        /// <summary>
+        /// Once the products tab is selected, populate the combo box and datagrid view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// @Author - Rohit
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
             LoadComboBox();
         }
 
+        /// <summary>
+        /// Once the products tab is selected, populate the combo box and datagrid view
+        /// </summary>
+        /// @Author - Rohit
         private void LoadComboBox()
         {
-            ComProductId.Items.Clear();
-            List<Products> dispProducts = ProductsDB.GetAllProducts();
-            ViewProducts.DataSource = dispProducts;
+            ComProductId.Items.Clear(); // clear the grid view
+            List<Products> dispProducts = ProductsDB.GetAllProducts(); // get products from database
+            ViewProducts.DataSource = dispProducts; // display them
 
             // loop through products and add ids to drop down
             foreach (Products prod in dispProducts)
@@ -616,6 +646,12 @@ namespace travel_gui
             }
         }
 
+        /// <summary>
+        /// Once product id is selected form drop down, product name is retrieved from the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// @Author - Rohit
         private void ComProductId_SelectedValueChanged(object sender, EventArgs e)
         {
             try
@@ -624,11 +660,11 @@ namespace travel_gui
                 Products myProduct = ProductsDB.GetProducts(ProductID);
                 txtProductName.Text = myProduct.ProductName;
             }
-            catch (FormatException)
+            catch (FormatException) // format exception to only accept an positive integer
             {
                 MessageBox.Show("Select or type valid Product ID", "Incorrect Input");
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException) // exception handled for null values
             {
                 MessageBox.Show("Product Id does not exist.", "Incorrect Input");
             }
