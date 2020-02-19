@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,9 @@ namespace TravelExpertsData
         // auto-implemented properties
         public int PackageId { get; set; }
         public string PkgName { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? PkgStartDate { get; set; } // nullable DateTime
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? PkgEndDate { get; set; } // nullable DateTime
         public string PkgDesc { get; set; }
         public decimal PkgBasePrice { get; set; }
