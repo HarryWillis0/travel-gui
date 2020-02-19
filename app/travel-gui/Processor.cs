@@ -31,7 +31,8 @@ namespace travel_gui
 
             // non empty -> must be convertible to decimal and less than the price of the package
             if (Decimal.TryParse(pkgAgencyCommissionTextBox.Text, out result) &&
-                result < newPkg.PkgBasePrice)
+                result < newPkg.PkgBasePrice &&
+                result >= 0)
             {
                 newPkg.PkgAgencyCommission = result;
                 return true;
@@ -51,7 +52,8 @@ namespace travel_gui
         {
             decimal result;
             if (!string.IsNullOrWhiteSpace(pkgBasePriceTextBox.Text) &&
-                Decimal.TryParse(pkgBasePriceTextBox.Text, out result))
+                Decimal.TryParse(pkgBasePriceTextBox.Text, out result) &&
+                result >= 0)
             {
                 newPkg.PkgBasePrice = result;
                 return true;
