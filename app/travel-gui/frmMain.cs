@@ -23,6 +23,7 @@ namespace travel_gui
 
         // product info
         List<Products> products;
+        int prodPos = 0;
         
         // supplier of current product in combo box
         List<Supplier> suppliersOfProd;
@@ -69,7 +70,7 @@ namespace travel_gui
                     loadSupplierTab();
                     break;
                 case 3: // PRoduct Suppliers Tab
-                    loadProductSupplierData();
+                    loadProductSupplierData(prodPos);
                     break;
             }
         }
@@ -693,12 +694,13 @@ namespace travel_gui
         /// @author Chi
         private void btnNextItem_Click(object sender, EventArgs e)
         {
-            int currentIndex = Convert.ToInt32(txtPSProdID.Text);
-
-            if (currentIndex == products.Count)
-                loadProductSupplierData();
+            if (prodPos == products.Count - 1)
+            {
+                prodPos = 0;
+                loadProductSupplierData(prodPos);
+            }
             else
-                loadProductSupplierData(currentIndex);
+                loadProductSupplierData(++prodPos);
         }
 
         /// <summary>
@@ -707,13 +709,13 @@ namespace travel_gui
         /// @author Chi
         private void btnPreviousItem_Click(object sender, EventArgs e)
         {
-            int currentIndex = Convert.ToInt32(txtPSProdID.Text);
-            currentIndex--;
-
-            if (currentIndex == 0)
-                loadProductSupplierData(products.Count - 1);
+            if (prodPos == 0)
+            {
+                prodPos = products.Count - 1;
+                loadProductSupplierData(prodPos);
+            }
             else
-                loadProductSupplierData(currentIndex - 1);
+                loadProductSupplierData(--prodPos);
         }
 
         /// <summary>

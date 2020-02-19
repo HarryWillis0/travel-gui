@@ -37,6 +37,7 @@
             System.Windows.Forms.Label pkgStartDateLabel1;
             System.Windows.Forms.Label supplierIdLabel;
             System.Windows.Forms.Label supNameLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbPkgs = new System.Windows.Forms.TabPage();
             this.btnRefresh = new System.Windows.Forms.Button();
@@ -97,6 +98,7 @@
             this.dataGridViewProdSuppliers = new System.Windows.Forms.DataGridView();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
@@ -116,6 +118,7 @@
             this.tbProdSupp.SuspendLayout();
             this.gbAddSupplier.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // packageIdLabel
@@ -203,12 +206,15 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
             this.tabControl1.Controls.Add(this.tbPkgs);
             this.tabControl1.Controls.Add(this.tbProds);
             this.tabControl1.Controls.Add(this.tbSuppliers);
             this.tabControl1.Controls.Add(this.tbProdSupp);
             this.tabControl1.Location = new System.Drawing.Point(12, 70);
+            this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
+            this.tabControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(893, 362);
             this.tabControl1.TabIndex = 0;
@@ -217,7 +223,7 @@
             // 
             // tbPkgs
             // 
-            this.tbPkgs.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tbPkgs.BackColor = System.Drawing.Color.White;
             this.tbPkgs.Controls.Add(this.btnRefresh);
             this.tbPkgs.Controls.Add(this.label3);
             this.tbPkgs.Controls.Add(this.dataGrdViewPkgProds);
@@ -242,15 +248,16 @@
             this.tbPkgs.Controls.Add(this.pkgDescTextBox);
             this.tbPkgs.Controls.Add(pkgNameLabel);
             this.tbPkgs.Controls.Add(this.pkgNameTextBox);
-            this.tbPkgs.Location = new System.Drawing.Point(4, 22);
+            this.tbPkgs.Location = new System.Drawing.Point(4, 25);
             this.tbPkgs.Name = "tbPkgs";
             this.tbPkgs.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPkgs.Size = new System.Drawing.Size(885, 336);
+            this.tbPkgs.Size = new System.Drawing.Size(885, 333);
             this.tbPkgs.TabIndex = 0;
             this.tbPkgs.Text = "Packages";
             // 
             // btnRefresh
             // 
+            this.btnRefresh.FlatAppearance.BorderSize = 2;
             this.btnRefresh.Location = new System.Drawing.Point(7, 306);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
@@ -484,10 +491,10 @@
             this.tbProds.Controls.Add(this.txtProductName);
             this.tbProds.Controls.Add(this.lblProductName);
             this.tbProds.Controls.Add(this.lblProductID);
-            this.tbProds.Location = new System.Drawing.Point(4, 22);
+            this.tbProds.Location = new System.Drawing.Point(4, 25);
             this.tbProds.Name = "tbProds";
             this.tbProds.Padding = new System.Windows.Forms.Padding(3);
-            this.tbProds.Size = new System.Drawing.Size(885, 336);
+            this.tbProds.Size = new System.Drawing.Size(885, 333);
             this.tbProds.TabIndex = 1;
             this.tbProds.Text = "Products";
             this.tbProds.UseVisualStyleBackColor = true;
@@ -587,9 +594,9 @@
             this.tbSuppliers.Controls.Add(this.bbtnNexxt);
             this.tbSuppliers.Controls.Add(this.btnEdit);
             this.tbSuppliers.Controls.Add(this.btnPrevious);
-            this.tbSuppliers.Location = new System.Drawing.Point(4, 22);
+            this.tbSuppliers.Location = new System.Drawing.Point(4, 25);
             this.tbSuppliers.Name = "tbSuppliers";
-            this.tbSuppliers.Size = new System.Drawing.Size(885, 336);
+            this.tbSuppliers.Size = new System.Drawing.Size(885, 333);
             this.tbSuppliers.TabIndex = 3;
             this.tbSuppliers.Text = "Suppliers";
             this.tbSuppliers.UseVisualStyleBackColor = true;
@@ -692,10 +699,10 @@
             this.tbProdSupp.Controls.Add(this.lblPSProductID);
             this.tbProdSupp.Controls.Add(this.lblPSSuppliers);
             this.tbProdSupp.Controls.Add(this.dataGridViewProdSuppliers);
-            this.tbProdSupp.Location = new System.Drawing.Point(4, 22);
+            this.tbProdSupp.Location = new System.Drawing.Point(4, 25);
             this.tbProdSupp.Name = "tbProdSupp";
             this.tbProdSupp.Padding = new System.Windows.Forms.Padding(3);
-            this.tbProdSupp.Size = new System.Drawing.Size(885, 336);
+            this.tbProdSupp.Size = new System.Drawing.Size(885, 333);
             this.tbProdSupp.TabIndex = 2;
             this.tbProdSupp.Text = "Product Suppliers";
             this.tbProdSupp.UseVisualStyleBackColor = true;
@@ -753,6 +760,7 @@
             // 
             // lstboxSuppliers
             // 
+            this.lstboxSuppliers.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lstboxSuppliers.FormattingEnabled = true;
             this.lstboxSuppliers.Location = new System.Drawing.Point(17, 20);
             this.lstboxSuppliers.Name = "lstboxSuppliers";
@@ -831,7 +839,10 @@
             this.dataGridViewProdSuppliers.AllowUserToDeleteRows = false;
             this.dataGridViewProdSuppliers.AllowUserToResizeColumns = false;
             this.dataGridViewProdSuppliers.AllowUserToResizeRows = false;
+            this.dataGridViewProdSuppliers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
             this.dataGridViewProdSuppliers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewProdSuppliers.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dataGridViewProdSuppliers.GridColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridViewProdSuppliers.Location = new System.Drawing.Point(19, 80);
             this.dataGridViewProdSuppliers.Name = "dataGridViewProdSuppliers";
             this.dataGridViewProdSuppliers.ReadOnly = true;
@@ -842,10 +853,11 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(12, 9);
+            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lblTitle.Location = new System.Drawing.Point(74, 19);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(203, 31);
+            this.lblTitle.Size = new System.Drawing.Size(279, 44);
             this.lblTitle.TabIndex = 1;
             this.lblTitle.Text = "Travel Experts";
             // 
@@ -859,12 +871,23 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(12, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(56, 45);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 3;
+            this.pictureBox1.TabStop = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(87)))), ((int)(((byte)(45)))));
             this.ClientSize = new System.Drawing.Size(922, 471);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.tabControl1);
@@ -887,6 +910,7 @@
             this.tbProdSupp.PerformLayout();
             this.gbAddSupplier.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -956,6 +980,7 @@
         private System.Windows.Forms.Button bbtnNexxt;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnPrevious;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
