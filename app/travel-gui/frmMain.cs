@@ -577,9 +577,9 @@ namespace travel_gui
             {
                 ComProductId.Enabled = false; // disables the product id textbox (not required while adding products)
                 string ProdName = txtProductName.Text;
-                if (ProdName == null) // null value validation on product name
+                if (ProdName == "") // null value validation on product name
                 {
-                    MessageBox.Show("Null values are not allowed.", "Null Value Error"); // message box pop uo
+                    MessageBox.Show("Null and Dublicate values are not allowed.", "Error"); // message box pop uo
                 }
                 else // if product name is not null add the new product using Add product method
                 {
