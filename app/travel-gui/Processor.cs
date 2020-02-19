@@ -29,15 +29,16 @@ namespace travel_gui
                 return true;
             }
 
-            // non empty -> must be convertible to decimal
-            if (Decimal.TryParse(pkgAgencyCommissionTextBox.Text, out result))
+            // non empty -> must be convertible to decimal and less than the price of the package
+            if (Decimal.TryParse(pkgAgencyCommissionTextBox.Text, out result) &&
+                result < newPkg.PkgBasePrice)
             {
                 newPkg.PkgAgencyCommission = result;
                 return true;
             }
+            else // invalid
+                MessageBox.Show("Invalid Agency Commission.\nPlease make sure:\n\tCommission is a valid price.\n\tCommission is less than package price.", "Input Error");
 
-            // processing failed
-            MessageBox.Show("Invalid Agency Commission.", "Input Error");
             return false;
         }
 
