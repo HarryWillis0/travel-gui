@@ -566,6 +566,7 @@ namespace travel_gui
             }
         }
 
+        
         /// <summary>
         /// Add button adds new products to the database
         /// </summary>
