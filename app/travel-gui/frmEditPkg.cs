@@ -58,14 +58,15 @@ namespace travel_gui
                 pkgEndDateTextBox.Text = temp.ToShortDateString();
             }
 
-            pkgBasePriceTextBox.Text = oldPkg.PkgBasePrice.ToString();
+            decimal tempMon = Convert.ToDecimal(oldPkg.PkgBasePrice);
+            pkgBasePriceTextBox.Text = tempMon.ToString("F");
 
             if (oldPkg.PkgAgencyCommission == null)
                 pkgAgencyCommissionTextBox.Text = "";
             else
             {
-                decimal temp = Convert.ToDecimal(oldPkg.PkgAgencyCommission);
-                pkgAgencyCommissionTextBox.Text = temp.ToString();
+                tempMon = Convert.ToDecimal(oldPkg.PkgAgencyCommission);
+                pkgAgencyCommissionTextBox.Text = tempMon.ToString("F");
             }
         }
 
