@@ -20,27 +20,28 @@ namespace travel_gui
         /// <returns>true if successful, false otherwise</returns>
         public static bool ProcessPkgAgencyCommission(Package newPkg, TextBox pkgAgencyCommissionTextBox)
         {
-            // for conversion from string to decimal
             decimal result;
 
-            if (string.IsNullOrEmpty(pkgAgencyCommissionTextBox.Text))
+            // must be number
+            if (!Decimal.TryParse(pkgAgencyCommissionTextBox.Text, out result))
             {
-                newPkg.PkgAgencyCommission = null;
-                return true;
+                MessageBox.Show("Agency commission needs to be a number.", "Commission Error");
+                return false;
             }
-
-            // non empty -> must be convertible to decimal and less than the price of the package
-            if (Decimal.TryParse(pkgAgencyCommissionTextBox.Text, out result) &&
-                result < newPkg.PkgBasePrice &&
-                result >= 0)
+            // price must be positive
+            if (result < 0)
             {
-                newPkg.PkgAgencyCommission = result;
-                return true;
+                MessageBox.Show("Agency commission must be positive.", "Commission Error");
+                return false;
             }
-            else // invalid
-                MessageBox.Show("Invalid Agency Commission.\nPlease make sure:\n\tCommission is a valid price.\n\tCommission is less than package price.", "Input Error");
-
-            return false;
+            // commission must be less than price
+            if (result > newPkg.PkgBasePrice)
+            {
+                MessageBox.Show("Agency commission must be less than package price.", "Commission Error");
+                return false;
+            }
+            newPkg.PkgAgencyCommission = result;
+            return true;
         }
 
         /// <summary>
@@ -51,17 +52,26 @@ namespace travel_gui
         public static bool ProcessPkgPrice(Package newPkg, TextBox pkgBasePriceTextBox)
         {
             decimal result;
-            if (!string.IsNullOrWhiteSpace(pkgBasePriceTextBox.Text) &&
-                Decimal.TryParse(pkgBasePriceTextBox.Text, out result) &&
-                result >= 0)
+            // price is required
+            if (string.IsNullOrEmpty(pkgBasePriceTextBox.Text))
             {
-                newPkg.PkgBasePrice = result;
-                return true;
+                MessageBox.Show("Package price is required.", "Price Error");
+                return false;
             }
-
-            // processing failed
-            MessageBox.Show("Invalid Price.", "Input Error");
-            return false;
+            // must be number
+            if (!Decimal.TryParse(pkgBasePriceTextBox.Text, out result))
+            {
+                MessageBox.Show("Price needs to be a number.", "Price Error");
+                return false;
+            }
+            // price must be positive
+            if (result < 0)
+            {
+                MessageBox.Show("Price must be positive.", "Price Error");
+                return false;
+            }
+            newPkg.PkgBasePrice = result;
+            return true;
         }
 
         /// <summary>
