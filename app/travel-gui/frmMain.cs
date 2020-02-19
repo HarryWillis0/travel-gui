@@ -544,26 +544,36 @@ namespace travel_gui
         /// @Author - Rohit
         private void btnModifyProducts_Click(object sender, EventArgs e)
         {
-            try
+            products = ProductsDB.GetAllProducts();
+
+            if ((products.Where(prod => prod.ProductName == txtProductName.Text)).ToList().Count > 0)
             {
-                int ProdID = Convert.ToInt32(ComProductId.SelectedItem);
-                string ProdName = txtProductName.Text;
-                if (string.IsNullOrEmpty(ProdName) ||  ComProductId.SelectedItem == null) // validation for null product name
+                MessageBox.Show("That product is already added.");
+            }
+            else
+            {
+                try
                 {
-                    MessageBox.Show("Please enter product name and select product ID.", "Incorrect Value");
+                    int ProdID = Convert.ToInt32(ComProductId.SelectedItem);
+                    string ProdName = txtProductName.Text;
+                    if (string.IsNullOrEmpty(ProdName) || ComProductId.SelectedItem == null) // validation for null product name
+                    {
+                        MessageBox.Show("Please enter product name and select product ID.", "Incorrect Value");
+                    }
+                    else // if the product name is not null then use the modify method form database access class to modify the product
+                    {
+                        ProductsDB.ModifyProducts(ProdName, ProdID);
+                        MessageBox.Show("Product name updated successfully", "Update"); // message pop up
+                        clear(); // clears the fields after modifying
+                        ShowProductsInProductsTab(); // updates the datagridview after modifying the products
+                    }
                 }
-                else // if the product name is not null then use the modify method form database access class to modify the product
+                catch (FormatException) // catches any format issues and null value exceptions
                 {
-                    ProductsDB.ModifyProducts(ProdName, ProdID);
-                    MessageBox.Show("Product name updated successfully", "Update"); // message pop up
-                    clear(); // clears the fields after modifying
-                    ShowProductsInProductsTab(); // updates the datagridview after modifying the products
+                    MessageBox.Show("Null values are not allowed", "Null Value Exception"); // message pop up
                 }
             }
-            catch (FormatException) // catches any format issues and null value exceptions
-            {
-                MessageBox.Show("Null values are not allowed", "Null Value Exception"); // message pop up
-            }
+            
         }
 
         
@@ -575,29 +585,39 @@ namespace travel_gui
         /// @Author - Rohit
         private void btnAddProducts_Click(object sender, EventArgs e)
         {
-            try
-            {
-                ComProductId.Enabled = false; // disables the product id textbox (not required while adding products)
-                string ProdName = txtProductName.Text;
-                if (ProdName == "") // null value validation on product name
-                {
-                    MessageBox.Show("Null and Dublicate values are not allowed.", "Error"); // message box pop uo
-                }
-                else // if product name is not null add the new product using Add product method
-                {
-                    ProductsDB.AddProducts(ProdName);
-                    ShowProductsInProductsTab(); // Updates data grid view
-                    LoadComboBox(); // updates combo box to view the added product immediately
-                    MessageBox.Show("New product succesfully added.", "Add Product"); // message box pop up
-                    clear(); // clears the fields after adding new product
-                }
-                ComProductId.Enabled = true; // After the product is added, enable the product id textbox
+            products = ProductsDB.GetAllProducts();
 
-            }
-            catch (FormatException) // catches any format issues and null value exceptions
+            if ((products.Where(prod => prod.ProductName == txtProductName.Text)).ToList().Count > 0)
             {
-                MessageBox.Show("Null values are not allowed, Type correct information.", "Null Value / Incorrect Format");
+                MessageBox.Show("That product is already added.");
             }
+            else
+            {
+                try
+                {
+                    ComProductId.Enabled = false; // disables the product id textbox (not required while adding products)
+                    string ProdName = txtProductName.Text;
+                    if (ProdName == "") // null value validation on product name
+                    {
+                        MessageBox.Show("Null and Dublicate values are not allowed.", "Error"); // message box pop uo
+                    }
+                    else // if product name is not null add the new product using Add product method
+                    {
+                        ProductsDB.AddProducts(ProdName);
+                        ShowProductsInProductsTab(); // Updates data grid view
+                        LoadComboBox(); // updates combo box to view the added product immediately
+                        MessageBox.Show("New product succesfully added.", "Add Product"); // message box pop up
+                        clear(); // clears the fields after adding new product
+                    }
+                    ComProductId.Enabled = true; // After the product is added, enable the product id textbox
+
+                }
+                catch (FormatException) // catches any format issues and null value exceptions
+                {
+                    MessageBox.Show("Null values are not allowed, Type correct information.", "Null Value / Incorrect Format");
+                }
+            }
+            
         }
 
         /// <summary>
