@@ -248,8 +248,22 @@ namespace travel_gui
             pkgAgencyCommissionTextBox.Text = packages[pkgPos].PkgAgencyCommission.ToString();
             pkgBasePriceTextBox.Text = packages[pkgPos].PkgBasePrice.ToString();
             pkgDescTextBox.Text = packages[pkgPos].PkgDesc;
-            pkgStartDateTextBox.Text = packages[pkgPos].PkgStartDate.ToString();
-            pkgEndDateTextBox.Text = packages[pkgPos].PkgEndDate.ToString();
+            // format to get rid of time stamp - first got to check if null
+            if (packages[pkgPos].PkgStartDate == null)
+                pkgStartDateTextBox.Text = "";
+            else
+            {
+                DateTime temp = Convert.ToDateTime(packages[pkgPos].PkgStartDate);
+                pkgStartDateTextBox.Text = temp.ToShortDateString();
+            }
+
+            if (packages[pkgPos].PkgEndDate == null)
+                pkgEndDateTextBox.Text = "";
+            else
+            {
+                DateTime temp = Convert.ToDateTime(packages[pkgPos].PkgEndDate);
+                pkgEndDateTextBox.Text = temp.ToShortDateString();
+            }
             pkgNameTextBox.Text = packages[pkgPos].PkgName;
 
             // some formatting
@@ -423,6 +437,10 @@ namespace travel_gui
                 packages = PackageDB.GetPackages();
                 pkgPos = packages.Count - 1;
                 ShowPackages();
+
+                // access products and suppliers associated with current package
+                PackageDB.GetPackageProducts(packages[pkgPos].PackageId, out pkgProducts, out pkgProdSupps);
+                ShowPkgProducts(pkgProducts, pkgProdSupps);
             }
         }
 
@@ -438,11 +456,14 @@ namespace travel_gui
                 cmboBoxSupsOfProd.Text = "";
                 try
                 {
-                    // get selected index 
-                    int cmboBoxIndex = cmboBoxProducts.SelectedIndex;
-
-                    // get product id
-                    int prodId = products[cmboBoxIndex].ProductID;
+                    // get product id // NEED TO FIX SELECTED INDEX CAN BE GREATER THAN LENGTH OF SUPPLIERSOFPROD
+                    string prodName = (string)cmboBoxProducts.SelectedItem;
+                    int prodId = -1;
+                    foreach (Products p in products)
+                    {
+                        if (p.ProductName == prodName)
+                            prodId = p.ProductID;
+                    }
                     
                     // get suppliers of product
                     suppliersOfProd = SuppliersDB.FindSuppliersOfProduct(prodId);
@@ -610,7 +631,6 @@ namespace travel_gui
                         clear(); // clears the fields after adding new product
                     }
                     ComProductId.Enabled = true; // After the product is added, enable the product id textbox
-
                 }
                 catch (FormatException) // catches any format issues and null value exceptions
                 {

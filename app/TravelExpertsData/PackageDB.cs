@@ -161,7 +161,7 @@ namespace TravelExpertsData
 
                 // add non-nullable parameters
                 cmd.Parameters.AddWithValue("@PkgName", newPkg.PkgName);
-                cmd.Parameters.AddWithValue("@PkgBasePrice", newPkg.PkgBasePrice);
+                cmd.Parameters.AddWithValue("@NewPkgBasePrice", newPkg.PkgBasePrice);
 
                 // for nullable properties, have to check for null
                 ProcessNewPkgNullables(cmd, newPkg, "New");
