@@ -567,7 +567,7 @@ namespace travel_gui
         {
             products = ProductsDB.GetAllProducts();
 
-            if ((products.Where(prod => prod.ProductName == txtProductName.Text)).ToList().Count > 0)
+            if (products.FindIndex(prod => prod.ProductName == txtProductName.Text) >= 0)
             {
                 MessageBox.Show("That product is already added.");
             }
@@ -597,6 +597,7 @@ namespace travel_gui
             
         }
 
+        
         /// <summary>
         /// Add button adds new products to the database
         /// </summary>
@@ -607,7 +608,7 @@ namespace travel_gui
         {
             products = ProductsDB.GetAllProducts();
 
-            if ((products.Where(prod => prod.ProductName == txtProductName.Text)).ToList().Count > 0)
+            if (products.FindIndex(prod => prod.ProductName == txtProductName.Text) >= 0)
             {
                 MessageBox.Show("That product is already added.");
             }
