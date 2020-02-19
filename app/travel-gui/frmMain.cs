@@ -438,11 +438,14 @@ namespace travel_gui
                 cmboBoxSupsOfProd.Text = "";
                 try
                 {
-                    // get selected index 
-                    int cmboBoxIndex = cmboBoxProducts.SelectedIndex;
-
-                    // get product id
-                    int prodId = products[cmboBoxIndex].ProductID;
+                    // get product id // NEED TO FIX SELECTED INDEX CAN BE GREATER THAN LENGTH OF SUPPLIERSOFPROD
+                    string prodName = (string)cmboBoxProducts.SelectedItem;
+                    int prodId = -1;
+                    foreach (Products p in products)
+                    {
+                        if (p.ProductName == prodName)
+                            prodId = p.ProductID;
+                    }
                     
                     // get suppliers of product
                     suppliersOfProd = SuppliersDB.FindSuppliersOfProduct(prodId);
@@ -578,9 +581,9 @@ namespace travel_gui
             {
                 ComProductId.Enabled = false; // disables the product id textbox (not required while adding products)
                 string ProdName = txtProductName.Text;
-                if (ProdName == "") // null value validation on product name
+                if (ProdName == null) // null value validation on product name
                 {
-                    MessageBox.Show("Null and Dublicate values are not allowed.", "Error"); // message box pop uo
+                    MessageBox.Show("Null values are not allowed.", "Null Value Error"); // message box pop uo
                 }
                 else // if product name is not null add the new product using Add product method
                 {
