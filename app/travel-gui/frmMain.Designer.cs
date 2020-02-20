@@ -41,6 +41,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbPkgs = new System.Windows.Forms.TabPage();
+            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnRefresh = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGrdViewPkgProds = new System.Windows.Forms.DataGridView();
@@ -98,9 +99,8 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.pkgStartDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.pkgEndDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.pkgEndDateTextBox = new System.Windows.Forms.TextBox();
+            this.pkgStartDateTextBox = new System.Windows.Forms.TextBox();
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
@@ -112,6 +112,7 @@
             supNameLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tbPkgs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).BeginInit();
             this.grpBoxAddProdToPkg.SuspendLayout();
             this.tbProds.SuspendLayout();
@@ -121,7 +122,6 @@
             this.gbAddSupplier.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // packageIdLabel
@@ -172,7 +172,7 @@
             // pkgEndDateLabel1
             // 
             pkgEndDateLabel1.AutoSize = true;
-            pkgEndDateLabel1.Location = new System.Drawing.Point(18, 108);
+            pkgEndDateLabel1.Location = new System.Drawing.Point(18, 111);
             pkgEndDateLabel1.Name = "pkgEndDateLabel1";
             pkgEndDateLabel1.Size = new System.Drawing.Size(55, 13);
             pkgEndDateLabel1.TabIndex = 17;
@@ -228,8 +228,8 @@
             // 
             this.tbPkgs.AutoScroll = true;
             this.tbPkgs.BackColor = System.Drawing.Color.White;
-            this.tbPkgs.Controls.Add(this.pkgEndDateDateTimePicker);
-            this.tbPkgs.Controls.Add(this.pkgStartDateDateTimePicker);
+            this.tbPkgs.Controls.Add(this.pkgStartDateTextBox);
+            this.tbPkgs.Controls.Add(this.pkgEndDateTextBox);
             this.tbPkgs.Controls.Add(this.btnRefresh);
             this.tbPkgs.Controls.Add(this.label3);
             this.tbPkgs.Controls.Add(this.dataGrdViewPkgProds);
@@ -258,6 +258,10 @@
             this.tbPkgs.Size = new System.Drawing.Size(885, 333);
             this.tbPkgs.TabIndex = 0;
             this.tbPkgs.Text = "Packages";
+            // 
+            // packageBindingSource
+            // 
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // btnRefresh
             // 
@@ -872,27 +876,23 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
-            // packageBindingSource
+            // pkgEndDateTextBox
             // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
+            this.pkgEndDateTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgEndDate", true));
+            this.pkgEndDateTextBox.Location = new System.Drawing.Point(150, 108);
+            this.pkgEndDateTextBox.Name = "pkgEndDateTextBox";
+            this.pkgEndDateTextBox.ReadOnly = true;
+            this.pkgEndDateTextBox.Size = new System.Drawing.Size(256, 20);
+            this.pkgEndDateTextBox.TabIndex = 26;
             // 
-            // pkgStartDateDateTimePicker
+            // pkgStartDateTextBox
             // 
-            this.pkgStartDateDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.packageBindingSource, "PkgStartDate", true));
-            this.pkgStartDateDateTimePicker.Enabled = false;
-            this.pkgStartDateDateTimePicker.Location = new System.Drawing.Point(150, 82);
-            this.pkgStartDateDateTimePicker.Name = "pkgStartDateDateTimePicker";
-            this.pkgStartDateDateTimePicker.Size = new System.Drawing.Size(256, 20);
-            this.pkgStartDateDateTimePicker.TabIndex = 26;
-            // 
-            // pkgEndDateDateTimePicker
-            // 
-            this.pkgEndDateDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.packageBindingSource, "PkgEndDate", true));
-            this.pkgEndDateDateTimePicker.Enabled = false;
-            this.pkgEndDateDateTimePicker.Location = new System.Drawing.Point(150, 108);
-            this.pkgEndDateDateTimePicker.Name = "pkgEndDateDateTimePicker";
-            this.pkgEndDateDateTimePicker.Size = new System.Drawing.Size(256, 20);
-            this.pkgEndDateDateTimePicker.TabIndex = 27;
+            this.pkgStartDateTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgStartDate", true));
+            this.pkgStartDateTextBox.Location = new System.Drawing.Point(150, 82);
+            this.pkgStartDateTextBox.Name = "pkgStartDateTextBox";
+            this.pkgStartDateTextBox.ReadOnly = true;
+            this.pkgStartDateTextBox.Size = new System.Drawing.Size(256, 20);
+            this.pkgStartDateTextBox.TabIndex = 27;
             // 
             // frmMain
             // 
@@ -911,6 +911,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tbPkgs.ResumeLayout(false);
             this.tbPkgs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrdViewPkgProds)).EndInit();
             this.grpBoxAddProdToPkg.ResumeLayout(false);
             this.grpBoxAddProdToPkg.PerformLayout();
@@ -924,7 +925,6 @@
             this.gbAddSupplier.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProdSuppliers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -993,9 +993,9 @@
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.DateTimePicker pkgEndDateDateTimePicker;
         private System.Windows.Forms.BindingSource packageBindingSource;
-        private System.Windows.Forms.DateTimePicker pkgStartDateDateTimePicker;
+        private System.Windows.Forms.TextBox pkgEndDateTextBox;
+        private System.Windows.Forms.TextBox pkgStartDateTextBox;
     }
 }
 

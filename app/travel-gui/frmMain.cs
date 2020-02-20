@@ -252,24 +252,22 @@ namespace travel_gui
             // format date time pickers
             if (packages[pkgPos].PkgStartDate == null)
             {
-                pkgStartDateDateTimePicker.Format = DateTimePickerFormat.Custom;
-                pkgStartDateDateTimePicker.CustomFormat = " ";
+                pkgStartDateTextBox.Text = "";
             }
             else
             {
                 DateTime temp = Convert.ToDateTime(packages[pkgPos].PkgStartDate);
-                pkgStartDateDateTimePicker.Value = temp;
+                pkgStartDateTextBox.Text = temp.ToShortDateString();
             }
 
             if (packages[pkgPos].PkgEndDate == null)
             {
-                pkgEndDateDateTimePicker.Format = DateTimePickerFormat.Custom;
-                pkgEndDateDateTimePicker.CustomFormat = " ";
+                pkgEndDateTextBox.Text = "";
             }
             else
             {
                 DateTime temp = Convert.ToDateTime(packages[pkgPos].PkgEndDate);
-                pkgEndDateDateTimePicker.Value = temp;
+                pkgEndDateTextBox.Text = temp.ToShortDateString();
             }
 
             pkgNameTextBox.Text = packages[pkgPos].PkgName;
