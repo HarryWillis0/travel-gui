@@ -29,9 +29,22 @@ namespace travel_gui
         // Update supplier 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            // valid supplier id
+            if (!Validator.IsValidSupplierId(supplierId.Text, out string result))
+            {
+                MessageBox.Show(result, "Supplier Error");
+                return;
+            }
+            // supplier name required as per Jolanta
+            if (string.IsNullOrEmpty(supplierName.Text))
+            {
+                MessageBox.Show("Supplier Name is required.", "Supplier Error");
+                return;
+            }
+
             Supplier supplier = new Supplier()
             {
-                SupplierId = Int32.Parse(supplierId.Text),
+                SupplierId = Convert.ToInt32(supplierId.Text),
                 SupName = supplierName.Text
             };
             SuppliersDB.EditSupplier(supplier);

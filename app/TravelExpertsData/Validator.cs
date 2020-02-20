@@ -59,5 +59,23 @@ namespace TravelExpertsData
             // both non-null here
             return DateTime.Compare((DateTime)start, (DateTime)date) < 0; 
         }
+
+        public static bool IsValidSupplierId(string supplierId, out string error)
+        {
+            // supplier id required
+            if (string.IsNullOrEmpty(supplierId))
+            {
+                error = "Supplier ID is required.";
+                return false;
+            }
+            // supplier id must be number
+            if (!Int32.TryParse(supplierId, out int result))
+            {
+                error = "Supplier ID must be a number.";
+                return false;
+            }
+            error = "";
+            return true;
+        }
     }
 }
