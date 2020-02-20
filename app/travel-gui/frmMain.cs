@@ -248,22 +248,30 @@ namespace travel_gui
             pkgAgencyCommissionTextBox.Text = packages[pkgPos].PkgAgencyCommission.ToString();
             pkgBasePriceTextBox.Text = packages[pkgPos].PkgBasePrice.ToString();
             pkgDescTextBox.Text = packages[pkgPos].PkgDesc;
-            // format to get rid of time stamp - first got to check if null
+
+            // format date time pickers
             if (packages[pkgPos].PkgStartDate == null)
-                pkgStartDateTextBox.Text = "";
+            {
+                pkgStartDateDateTimePicker.Format = DateTimePickerFormat.Custom;
+                pkgStartDateDateTimePicker.CustomFormat = " ";
+            }
             else
             {
                 DateTime temp = Convert.ToDateTime(packages[pkgPos].PkgStartDate);
-                pkgStartDateTextBox.Text = temp.ToShortDateString();
+                pkgStartDateDateTimePicker.Value = temp;
             }
 
             if (packages[pkgPos].PkgEndDate == null)
-                pkgEndDateTextBox.Text = "";
+            {
+                pkgEndDateDateTimePicker.Format = DateTimePickerFormat.Custom;
+                pkgEndDateDateTimePicker.CustomFormat = " ";
+            }
             else
             {
                 DateTime temp = Convert.ToDateTime(packages[pkgPos].PkgEndDate);
-                pkgEndDateTextBox.Text = temp.ToShortDateString();
+                pkgEndDateDateTimePicker.Value = temp;
             }
+
             pkgNameTextBox.Text = packages[pkgPos].PkgName;
 
             // some formatting

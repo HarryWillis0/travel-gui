@@ -20,27 +20,33 @@ namespace travel_gui
         /// <returns>true if successful, false otherwise</returns>
         public static bool ProcessPkgAgencyCommission(Package newPkg, TextBox pkgAgencyCommissionTextBox)
         {
-            decimal result;
+            if (string.IsNullOrEmpty(pkgAgencyCommissionTextBox.Text))
+            {
+                newPkg.PkgAgencyCommission = null;
+                return true;
+            }
 
             // must be number
-            if (!Decimal.TryParse(pkgAgencyCommissionTextBox.Text, out result))
+            if (!decimal.TryParse(pkgAgencyCommissionTextBox.Text, out decimal result))
             {
                 MessageBox.Show("Agency commission needs to be a number.", "Commission Error");
                 return false;
             }
+
+            decimal commission = Convert.ToDecimal(pkgAgencyCommissionTextBox.Text);
             // price must be positive
-            if (result < 0)
+            if (commission < 0)
             {
                 MessageBox.Show("Agency commission must be positive.", "Commission Error");
                 return false;
             }
             // commission must be less than price
-            if (result > newPkg.PkgBasePrice)
+            if (commission > newPkg.PkgBasePrice)
             {
                 MessageBox.Show("Agency commission must be less than package price.", "Commission Error");
                 return false;
             }
-            newPkg.PkgAgencyCommission = result;
+            newPkg.PkgAgencyCommission = commission;
             return true;
         }
 
