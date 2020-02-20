@@ -43,6 +43,7 @@ namespace TravelExpertsData
                             curr = new Package();
                             curr.PackageId = (int)reader["PackageId"];
                             curr.PkgName = (string)reader["PkgName"];
+                            curr.PkgBasePrice = (decimal)reader["PkgBasePrice"];
 
                             // process nullable columns in DB
                             ProcessNullablesFromDB(reader, curr);
@@ -292,9 +293,12 @@ namespace TravelExpertsData
                 curr.PkgAgencyCommission = null;
             else
                 curr.PkgAgencyCommission = (decimal?)reader["PkgAgencyCommission"];
-
-            curr.PkgDesc = (string)reader["PkgDesc"];
-            curr.PkgBasePrice = (decimal)reader["PkgBasePrice"];
+            
+            col = reader.GetOrdinal("PkgDesc");
+            if (reader.IsDBNull(col))
+                curr.PkgDesc = null;
+            else
+                curr.PkgDesc = (string)reader["PkgDesc"];
         }
     }
 }
