@@ -99,9 +99,12 @@ namespace travel_gui
                 newPkg.PkgDesc = pkgDescTextBox.Text;
                 return true;
             }
+            else
+            {
+                MessageBox.Show("Package Description is too long.", "Input Error");
+            }
 
             // processing failed
-            MessageBox.Show("Invalid Description.", "Input Error");
             return false;
         }
 
@@ -112,14 +115,19 @@ namespace travel_gui
         /// <returns>true if successful, false otherwise</returns>
         public static bool ProcessName(Package newPkg, TextBox pkgNameTextBox)
         {
-            if (!string.IsNullOrWhiteSpace(pkgNameTextBox.Text) && pkgNameTextBox.Text.Length <= 50)
+            if (!string.IsNullOrWhiteSpace(pkgNameTextBox.Text))
             {
-                newPkg.PkgName = pkgNameTextBox.Text;
-                return true;
+                if (pkgNameTextBox.Text.Length <= 50)
+                {
+                    newPkg.PkgName = pkgNameTextBox.Text;
+                    return true;
+                }
+                else
+                    MessageBox.Show("Package name is too long.", "Input Error");
             }
-
+            else
+                MessageBox.Show("Package name is required.", "Input Error");
             // processing failed
-            MessageBox.Show("Invalid Name.", "Input Error");
             return false;
         }
 
@@ -127,14 +135,9 @@ namespace travel_gui
         /// Process new start date 
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
-        public static bool ProcessStartDate(Package newPkg, TextBox pkgStartDateTextBox)
+        public static bool ProcessStartDate(Package newPkg, DateTimePicker pkgStartDateTextBox)
         {
-            // empty -> set new package start date to null
-            if (pkgStartDateTextBox.Text == "")
-            {
-                newPkg.PkgStartDate = null;
-                return true;
-            }
+            string date = pkgStartDateTextBox.Value.ToString();
 
             // non-empty -> validate input
             if (Validator.IsValidDate(pkgStartDateTextBox.Text))
@@ -144,7 +147,7 @@ namespace travel_gui
             }
 
             // processing failed
-            MessageBox.Show("Invalid Start Date.", "Input Error");
+            MessageBox.Show("Start date must be in valid date form.", "Input Error");
             return false;
         }
 
@@ -152,25 +155,24 @@ namespace travel_gui
         /// Process new end date 
         /// </summary>
         /// <returns>True if successful, false otherwise</returns>
-        public static bool ProcessEndDate(Package newPkg, TextBox pkgEndDateTextBox)
+        public static bool ProcessEndDate(Package newPkg, DateTimePicker pkgEndDateTextBox)
         {
-            // empty -> set new package end date to null
-            if (pkgEndDateTextBox.Text == "")
-            {
-                newPkg.PkgEndDate = null;
-                return true;
-            }
+            string date = pkgEndDateTextBox.Value.ToString();
 
             // non empty -> validate input
-            if (Validator.IsValidDate(pkgEndDateTextBox.Text) &&
-                Validator.IsLater(newPkg.PkgStartDate, Convert.ToDateTime(pkgEndDateTextBox.Text)))
+            if (Validator.IsValidDate(pkgEndDateTextBox.Text))
             {
-                newPkg.PkgEndDate = Convert.ToDateTime(pkgEndDateTextBox.Text);
-                return true;
+                if (Validator.IsLater(newPkg.PkgStartDate, pkgEndDateTextBox.Value))
+                {
+                    newPkg.PkgEndDate = Convert.ToDateTime(pkgEndDateTextBox.Text);
+                    return true;
+                }
+                else
+                    MessageBox.Show("End date must be after start date.", "Input Error");
             }
-
-            // processing failed
-            MessageBox.Show("Invalid End Date.", "Input Error");
+            else
+                MessageBox.Show("Invalid End Date.", "Input Error");
+            // processing failed 
             return false;
         }
     }

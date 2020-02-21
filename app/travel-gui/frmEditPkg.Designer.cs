@@ -37,15 +37,19 @@
             System.Windows.Forms.Label pkgNameLabel;
             System.Windows.Forms.Label pkgStartDateLabel;
             this.packageIdTextBox = new System.Windows.Forms.TextBox();
+            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pkgAgencyCommissionTextBox = new System.Windows.Forms.TextBox();
             this.pkgBasePriceTextBox = new System.Windows.Forms.TextBox();
             this.pkgDescTextBox = new System.Windows.Forms.TextBox();
-            this.pkgEndDateTextBox = new System.Windows.Forms.TextBox();
             this.pkgNameTextBox = new System.Windows.Forms.TextBox();
-            this.pkgStartDateTextBox = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAccept = new System.Windows.Forms.Button();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.pkgStartDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.pkgEndDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.chkBoxStartDate = new System.Windows.Forms.CheckBox();
+            this.chkBoxEndDate = new System.Windows.Forms.CheckBox();
+            this.tlTipStartDate = new System.Windows.Forms.ToolTip(this.components);
+            this.tlTipEndDate = new System.Windows.Forms.ToolTip(this.components);
             packageIdLabel = new System.Windows.Forms.Label();
             pkgAgencyCommissionLabel = new System.Windows.Forms.Label();
             pkgBasePriceLabel = new System.Windows.Forms.Label();
@@ -128,6 +132,10 @@
             this.packageIdTextBox.Size = new System.Drawing.Size(28, 20);
             this.packageIdTextBox.TabIndex = 2;
             // 
+            // packageBindingSource
+            // 
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
+            // 
             // pkgAgencyCommissionTextBox
             // 
             this.pkgAgencyCommissionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgAgencyCommission", true));
@@ -149,31 +157,16 @@
             this.pkgDescTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgDesc", true));
             this.pkgDescTextBox.Location = new System.Drawing.Point(168, 76);
             this.pkgDescTextBox.Name = "pkgDescTextBox";
-            this.pkgDescTextBox.Size = new System.Drawing.Size(164, 20);
+            this.pkgDescTextBox.Size = new System.Drawing.Size(200, 20);
             this.pkgDescTextBox.TabIndex = 8;
-            // 
-            // pkgEndDateTextBox
-            // 
-            this.pkgEndDateTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgEndDate", true));
-            this.pkgEndDateTextBox.Location = new System.Drawing.Point(168, 128);
-            this.pkgEndDateTextBox.Name = "pkgEndDateTextBox";
-            this.pkgEndDateTextBox.Size = new System.Drawing.Size(164, 20);
-            this.pkgEndDateTextBox.TabIndex = 10;
             // 
             // pkgNameTextBox
             // 
             this.pkgNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PkgName", true));
             this.pkgNameTextBox.Location = new System.Drawing.Point(168, 50);
             this.pkgNameTextBox.Name = "pkgNameTextBox";
-            this.pkgNameTextBox.Size = new System.Drawing.Size(164, 20);
+            this.pkgNameTextBox.Size = new System.Drawing.Size(200, 20);
             this.pkgNameTextBox.TabIndex = 0;
-            // 
-            // pkgStartDateTextBox
-            // 
-            this.pkgStartDateTextBox.Location = new System.Drawing.Point(168, 102);
-            this.pkgStartDateTextBox.Name = "pkgStartDateTextBox";
-            this.pkgStartDateTextBox.Size = new System.Drawing.Size(164, 20);
-            this.pkgStartDateTextBox.TabIndex = 14;
             // 
             // btnCancel
             // 
@@ -195,15 +188,55 @@
             this.btnAccept.UseVisualStyleBackColor = true;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
-            // packageBindingSource
+            // pkgStartDateDateTimePicker
             // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
+            this.pkgStartDateDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.packageBindingSource, "PkgStartDate", true));
+            this.pkgStartDateDateTimePicker.Location = new System.Drawing.Point(168, 102);
+            this.pkgStartDateDateTimePicker.Name = "pkgStartDateDateTimePicker";
+            this.pkgStartDateDateTimePicker.Size = new System.Drawing.Size(200, 20);
+            this.pkgStartDateDateTimePicker.TabIndex = 17;
+            // 
+            // pkgEndDateDateTimePicker
+            // 
+            this.pkgEndDateDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.packageBindingSource, "PkgEndDate", true));
+            this.pkgEndDateDateTimePicker.Location = new System.Drawing.Point(168, 128);
+            this.pkgEndDateDateTimePicker.Name = "pkgEndDateDateTimePicker";
+            this.pkgEndDateDateTimePicker.Size = new System.Drawing.Size(200, 20);
+            this.pkgEndDateDateTimePicker.TabIndex = 18;
+            // 
+            // chkBoxStartDate
+            // 
+            this.chkBoxStartDate.AutoSize = true;
+            this.chkBoxStartDate.Location = new System.Drawing.Point(375, 105);
+            this.chkBoxStartDate.Name = "chkBoxStartDate";
+            this.chkBoxStartDate.Size = new System.Drawing.Size(55, 17);
+            this.chkBoxStartDate.TabIndex = 19;
+            this.chkBoxStartDate.Text = "Empty";
+            this.tlTipStartDate.SetToolTip(this.chkBoxStartDate, "Check to enter start date later.");
+            this.chkBoxStartDate.UseVisualStyleBackColor = true;
+            this.chkBoxStartDate.CheckedChanged += new System.EventHandler(this.chkBoxStartDate_CheckedChanged);
+            // 
+            // chkBoxEndDate
+            // 
+            this.chkBoxEndDate.AutoSize = true;
+            this.chkBoxEndDate.Location = new System.Drawing.Point(375, 131);
+            this.chkBoxEndDate.Name = "chkBoxEndDate";
+            this.chkBoxEndDate.Size = new System.Drawing.Size(55, 17);
+            this.chkBoxEndDate.TabIndex = 20;
+            this.chkBoxEndDate.Text = "Empty";
+            this.tlTipEndDate.SetToolTip(this.chkBoxEndDate, "Check to enter end date later.");
+            this.chkBoxEndDate.UseVisualStyleBackColor = true;
+            this.chkBoxEndDate.CheckedChanged += new System.EventHandler(this.chkBoxEndDate_CheckedChanged);
             // 
             // frmEditPkg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(344, 269);
+            this.ClientSize = new System.Drawing.Size(474, 269);
+            this.Controls.Add(this.chkBoxEndDate);
+            this.Controls.Add(this.chkBoxStartDate);
+            this.Controls.Add(this.pkgEndDateDateTimePicker);
+            this.Controls.Add(this.pkgStartDateDateTimePicker);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(packageIdLabel);
@@ -215,11 +248,9 @@
             this.Controls.Add(pkgDescLabel);
             this.Controls.Add(this.pkgDescTextBox);
             this.Controls.Add(pkgEndDateLabel);
-            this.Controls.Add(this.pkgEndDateTextBox);
             this.Controls.Add(pkgNameLabel);
             this.Controls.Add(this.pkgNameTextBox);
             this.Controls.Add(pkgStartDateLabel);
-            this.Controls.Add(this.pkgStartDateTextBox);
             this.Name = "frmEditPkg";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit Package";
@@ -237,10 +268,14 @@
         private System.Windows.Forms.TextBox pkgAgencyCommissionTextBox;
         private System.Windows.Forms.TextBox pkgBasePriceTextBox;
         private System.Windows.Forms.TextBox pkgDescTextBox;
-        private System.Windows.Forms.TextBox pkgEndDateTextBox;
         private System.Windows.Forms.TextBox pkgNameTextBox;
-        private System.Windows.Forms.TextBox pkgStartDateTextBox;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnAccept;
+        private System.Windows.Forms.DateTimePicker pkgStartDateDateTimePicker;
+        private System.Windows.Forms.DateTimePicker pkgEndDateDateTimePicker;
+        private System.Windows.Forms.CheckBox chkBoxStartDate;
+        private System.Windows.Forms.CheckBox chkBoxEndDate;
+        private System.Windows.Forms.ToolTip tlTipStartDate;
+        private System.Windows.Forms.ToolTip tlTipEndDate;
     }
 }
