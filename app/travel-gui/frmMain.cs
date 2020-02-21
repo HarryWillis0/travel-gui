@@ -257,7 +257,7 @@ namespace travel_gui
             else
             {
                 DateTime temp = Convert.ToDateTime(packages[pkgPos].PkgStartDate);
-                pkgStartDateTextBox.Text = temp.ToShortDateString();
+                pkgStartDateTextBox.Text = temp.ToLongDateString();
             }
 
             if (packages[pkgPos].PkgEndDate == null)
@@ -267,7 +267,7 @@ namespace travel_gui
             else
             {
                 DateTime temp = Convert.ToDateTime(packages[pkgPos].PkgEndDate);
-                pkgEndDateTextBox.Text = temp.ToShortDateString();
+                pkgEndDateTextBox.Text = temp.ToLongDateString();
             }
 
             pkgNameTextBox.Text = packages[pkgPos].PkgName;
